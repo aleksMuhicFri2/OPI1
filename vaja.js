@@ -8,10 +8,13 @@ let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creat
 let sumoBt = document.getElementById("sumoBt");
 let wizardBt = document.getElementById("wizardBt");
 let ninjaImg = document.getElementById("ninjaImg"); // IMAGE BUTTONS ........................................
-let sumoImg = document.getElementById("sumoImg");
 let wizardImg = document.getElementById("wizardImg");
+let sumoImg = document.getElementById("sumoImg");
 let fireball = document.getElementById("wizardFireball");
 let kunai = document.getElementById("ninjaKunai");
+let heart0 = document.getElementById("heart0");
+let heart1 = document.getElementById("heart1");
+let heart2 = document.getElementById("heart2");
 let username = "";
 let password = "";
 let avatarClass = "";
@@ -68,6 +71,7 @@ let int1;
             function() {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/thumb/sr2d818a1f5d7d7.png");
                 kunai.style.animation = "moveKunai 0.5s linear alternate";
+
                 },
             function() {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/sr29975db92de0e.png");
@@ -112,6 +116,21 @@ let int1;
             });
         });
     //============================================== GAME PAGE =========================================================
-    let coinCount = 43525;
+    let coinCount = 0;
     document.getElementById("coinCount").textContent = coinCount.toString();
+    heart0.style.animation = "";
+    heart1.style.animation = "";
+    heart2.style.animation = "";
+    function heartJump() {
+        setTimeout(function() {
+            heart0.style.animation = "heartJump 1s steps(1, end) infinite";
+        },1350);
+        setTimeout(function() {
+            heart1.style.animation = "heartJump 1s steps(1, end) infinite";
+        },1500);
+        setTimeout(function() {
+            heart2.style.animation = "heartJump 1s steps(1, end) infinite";
+        },1650);
+    }
+    heartJump();
 }

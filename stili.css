@@ -178,16 +178,15 @@ input[type = "submit"]:hover {
     height: 100px;
     width: 100px;
     margin-left : -50px;
-    animation: heartJump 1s linear alternate;
 }
 @keyframes heartJump {
     0% {
-        top: 0;
+        transform: translateY(0);
     }
-    50% {
-        top: -10px;
+    95% {
+        transform: translateY(-3px);
     }
     100% {
-        top: 0;
+        transform: translateY(0);
     }
 }
