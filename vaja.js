@@ -118,8 +118,14 @@ let int1;
             });
         });
     //============================================== GAME PAGE =========================================================
-    let coinCount = 0;
-    document.getElementById("coinCount").textContent = coinCount.toString();
+
+    heartJump(); // hearts jumping on top of the page
+    coinSpin();  // coin spinning function
+
+    let coinCount = 0; // how many coins we have
+
+    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins onn top right
+
     function heartJump() {
         setTimeout(function() {
             heart0.style.animation = "heartJump 1s steps(1, end) infinite";
@@ -140,17 +146,16 @@ let int1;
             coin.src = coinImages[spinIndex];
         },200);
     }
-    heartJump();
-    coinSpin();
-    document.addEventListener('keydown', function(event) {
+
+    document.addEventListener('keydown', function(event) {          // InfoTab visible if you hold key "i"
         if (event.key === 'i') {
             document.getElementById("infoTab").style.visibility = "visible";
         }
     });
-
     document.addEventListener('keyup', function(event) {
         if (event.key === 'i') {
             document.getElementById("infoTab").style.visibility = "hidden";
         }
     });
+
 }
