@@ -15,6 +15,7 @@ let kunai = document.getElementById("ninjaKunai");
 let heart0 = document.getElementById("heart0");
 let heart1 = document.getElementById("heart1");
 let heart2 = document.getElementById("heart2");
+let coin = document.getElementById("berryCoin");
 let username = "";
 let password = "";
 let avatarClass = "";
@@ -86,7 +87,8 @@ let int1;
         });
 
         let currentIndex = 0;
-        let sumoImages = ["https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr21279b6461f0f.png", "https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr216c4e4249bce.png"];
+        let sumoImages = ["https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr21279b6461f0f.png",
+            "https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr216c4e4249bce.png"];
 
         sumoImg.addEventListener('mouseenter', () => {
             int1 = setInterval(() => {
@@ -118,9 +120,6 @@ let int1;
     //============================================== GAME PAGE =========================================================
     let coinCount = 0;
     document.getElementById("coinCount").textContent = coinCount.toString();
-    heart0.style.animation = "";
-    heart1.style.animation = "";
-    heart2.style.animation = "";
     function heartJump() {
         setTimeout(function() {
             heart0.style.animation = "heartJump 1s steps(1, end) infinite";
@@ -132,5 +131,26 @@ let int1;
             heart2.style.animation = "heartJump 1s steps(1, end) infinite";
         },1650);
     }
+    function coinSpin() {
+        let spinIndex = 0;
+        let coinImages = ["https://art.pixilart.com/thumb/sr2b3a05f028aab.png", "https://art.pixilart.com/thumb/sr26cad9a64b482.png",
+            "https://art.pixilart.com/thumb/sr281a982156be4.png", "https://art.pixilart.com/thumb/sr2c1b6163fc67e.png"];
+        setInterval(function(){
+            spinIndex = (spinIndex + 1) % coinImages.length;
+            coin.src = coinImages[spinIndex];
+        },200);
+    }
     heartJump();
+    coinSpin();
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'i') {
+            document.getElementById("infoTab").style.visibility = "visible";
+        }
+    });
+
+    document.addEventListener('keyup', function(event) {
+        if (event.key === 'i') {
+            document.getElementById("infoTab").style.visibility = "hidden";
+        }
+    });
 }
