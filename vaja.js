@@ -89,7 +89,7 @@ let int1;
 
         let currentIndex = 0;
         let sumoImages = ["https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr21279b6461f0f.png",
-            "https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr216c4e4249bce.png"];
+                          "https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr216c4e4249bce.png"];
 
         sumoImg.addEventListener('mouseenter', () => {
             int1 = setInterval(() => {
@@ -110,7 +110,7 @@ let int1;
     
     $("#wizardImg").hover(
             function() {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr245acdadcb2d4.png");
+                $("#wizardImg").attr("src", "https://art.pixilart.com/thumb/sr2c66d50b00001.png");
                 fireball.style.animation = "moveFireball 1s linear alternate";
             },
             function() {
@@ -142,9 +142,9 @@ let int1;
                            "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png",
                            "https://art.pixilart.com/thumb/sr2b908b92af219.png", "https://art.pixilart.com/thumb/sr25933b8c0c36d.png", "https://art.pixilart.com/thumb/sr25f62795ea497.png"];
 
+    wizardImg.src = wizardAnimation[0];
     let animationIndex = 0;
     let animationCooldown = 0;
-    wizardImg.src = wizardAnimation[0];
     displayImage(); // shows our character on the map
 
     // draw image on canvas
@@ -156,7 +156,7 @@ let int1;
         if(animationCooldown === 0){
             animationIndex = 0;
         } else if(animationCooldown > 0){
-            if(animationCooldown < 3){
+            if(animationCooldown < 4){
                 if(direction === "down") {
                     animationIndex = 0;
                 } else if(direction === "right"){
@@ -181,6 +181,7 @@ let int1;
     }
 
     document.addEventListener("keydown", function(event) { // moves character with WASD
+        displayImage();
         if (event.key === "a") {
             cooldownTOIndex("left");
             animationCooldown++;
@@ -206,19 +207,19 @@ let int1;
     document.addEventListener("keyup", function(event) { // Stops the movement correctly
         if (event.key === "a") {
             displayImage();
-            animationCooldown = 3;
+            animationCooldown = 1;
             animationIndex = 9;
         } else if (event.key === "d") {
             displayImage();
-            animationCooldown = 3;
+            animationCooldown = 1;
             animationIndex = 3;
         } else if (event.key === "w") {
             displayImage();
-            animationCooldown = 3;
+            animationCooldown = 1;
             animationIndex = 6;
         } else if (event.key === "s") {
             displayImage();
-            animationCooldown = 3;
+            animationCooldown = 1;
             animationIndex = 0;
         }
         // redraw image on canvas with updated position
@@ -241,7 +242,7 @@ let int1;
     function coinSpin() {
         let spinIndex = 0;
         let coinImages = ["https://art.pixilart.com/thumb/sr2b3a05f028aab.png", "https://art.pixilart.com/thumb/sr26cad9a64b482.png",
-            "https://art.pixilart.com/thumb/sr281a982156be4.png", "https://art.pixilart.com/thumb/sr2c1b6163fc67e.png"];
+                          "https://art.pixilart.com/thumb/sr281a982156be4.png", "https://art.pixilart.com/thumb/sr2c1b6163fc67e.png"];
         setInterval(function(){
             spinIndex = (spinIndex + 1) % coinImages.length;
             coin.src = coinImages[spinIndex];
