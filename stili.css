@@ -203,3 +203,11 @@ input[type = "submit"]:hover {
     width: 20vw;
     border: 1px solid white;
 }
+
+#characterImg{
+    position: absolute;
+    top: 500px;
+    left: 1000px;
+    width: 100px;
+    height: 100px;
+}

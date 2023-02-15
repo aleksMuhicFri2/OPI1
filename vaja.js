@@ -2,6 +2,7 @@ window.onload = function(){
     $("#firstPage").hide();
     $("#avatarCreation").show();
     $("#game").hide();
+    $("#characterImg").hide();
 
 let submitB = document.getElementById("submit"); // submit Button
 let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
@@ -30,16 +31,17 @@ let int1;
     $(document).ready(function() {
         $("#firstPage").hide();
         $("#avatarCreation").show();
-        $("#game").hide();
+        //$("#game").hide();
         });
     }
 
 //=============================================== AVATAR CREATION PAGE =================================================
 
     function hideAvatarPage(){
-        $("#firstPage").hide();
+        //$("#firstPage").hide();
         $("#avatarCreation").hide();
         $("#game").show();
+        $("#characterImg").show();
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -121,7 +123,8 @@ let int1;
 
     //============================================== GAME PAGE =========================================================
     $("#infoTab").hide();
-
+    const characterImg = document.getElementById("characterImg");
+/*
     let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -133,19 +136,114 @@ let int1;
 
     let charX = 1000; // start position of our character
     let charY = 500;
-
+ */
     heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
-    let wizardAnimation = ["slike/WizardFront.png", "slike/WizardWalkDown1", "slike/WizardWalkDown2",
+    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
     let animationIndex = 0;
     let animationCooldown = 0;
-    wizardImg.src = wizardAnimation[0];
+    characterImg.src = wizardAnimation[0];
+    let charX = 1000; // start position of our character
+    let charY = 500;
+    let keyA = false;
+    let keyS = false;
+    let keyD = false;
+    let keyW = false;
+
+    document.addEventListener("keydown", function(event) {
+        console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
+        animationCooldown++;
+        if(animationCooldown === 4){
+            animationCooldown = 0;
+            animationIndex++;
+        }
+            if (event.key === "a") {
+                if(!keyA){
+                    keyA = true;
+                }
+            }
+            if (event.key === "d") {
+                if(!keyD){
+                    keyD = true;
+                }
+            }
+            if (event.key === "w") {
+                if(!keyW){
+                    keyW = true;
+                }
+            }
+            if (event.key === "s") {
+                if(!keyS){
+                    keyS = true;
+                }
+            }
+        if (event.key === 'i') {
+            $("#infoTab").show();
+        }
+        update(keyA, keyS, keyW, keyD);
+    });
+
+    function update(keyA, keyS, keyW, keyD){
+        let offset = 0;
+        if(keyS){
+            charY += 10;
+        }
+        if(keyW){
+            charY -= 10;
+            offset = 6;
+        }
+        if(keyD){
+            charX += 10;
+            offset = 3;
+        }
+        if(keyA){
+            charX -= 10;
+            offset = 9;
+        }
+        spremeniPozicijo(charY, charX);
+        spremeniAnimacijo(offset + animationIndex % 3);
+    }
+
+    function spremeniPozicijo(top, left){
+        characterImg.style.left = left + "px";
+        characterImg.style.top = top + "px";
+    }
+
+    function spremeniAnimacijo(animacija){
+        characterImg.src = wizardAnimation[animacija];
+    }
+
+    document.addEventListener("keyup", function(event) {
+        if (event.key === 'i') {
+            $("#infoTab").hide();
+        }
+        if (event.key === "a") {
+                keyA = false;
+        }
+        if (event.key === "d") {
+            keyD = false;
+        }
+        if (event.key === "w") {
+            keyW = false;
+        }
+        if (event.key === "s") {
+            keyS = false;
+        }
+        update(keyA, keyS, keyW, keyD);
+        // Stops the movement correctly
+        if(!keyA && !keyS && !keyW && !keyD){
+            characterImg.src = wizardAnimation[0];
+            animationCooldown = 0;
+            animationIndex = 0;
+        }
+    });
+    /*
     displayImage(); // shows our character on the map
 
     // draw image on canvas
@@ -226,6 +324,7 @@ let int1;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         displayImage();
     });
+     */
 
 
     function heartJump() {
@@ -248,15 +347,4 @@ let int1;
             coin.src = coinImages[spinIndex];
         },200);
     }
-
-    document.addEventListener('keydown', function(event) {          // InfoTab visible if you hold key "i"
-        if (event.key === 'i') {
-            $("#infoTab").show();
-        }
-    });
-    document.addEventListener('keyup', function(event) {
-        if (event.key === 'i') {
-            $("#infoTab").hide();
-        }
-    });
 }
