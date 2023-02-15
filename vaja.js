@@ -105,7 +105,7 @@ let int1;
             function() {
                 $("#wizardImg").attr("src", "https://art.pixilart.com/sr28e6e08b7bbd9.png");},
             function() {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
+                $("#wizardImg").attr("src", "slike/WizardFront.png");
         });
     
     $("#wizardImg").hover(
@@ -114,7 +114,7 @@ let int1;
                 fireball.style.animation = "moveFireball 1s linear alternate";
             },
             function() {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
+                $("#wizardImg").attr("src", "slike/WizardFront.png");
                 fireball.style.animation = "";
             });
         });
@@ -137,10 +137,10 @@ let int1;
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
-    let wizardAnimation = ["https://art.pixilart.com/thumb/sr2ceb7f30f51bd.png", "https://art.pixilart.com/thumb/sr2e1496ebd68df.png", "https://art.pixilart.com/thumb/sr20b67910862cb.png",
-                           "https://art.pixilart.com/thumb/sr2c66d50b00001.png", "https://art.pixilart.com/thumb/sr2249a95eb59a8.png", "https://art.pixilart.com/thumb/sr255efdc9ee7ed.png",
-                           "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png",
-                           "https://art.pixilart.com/thumb/sr2b908b92af219.png", "https://art.pixilart.com/thumb/sr25933b8c0c36d.png", "https://art.pixilart.com/thumb/sr25f62795ea497.png"];
+    let wizardAnimation = ["slike/WizardFront.png", "slike/WizardWalkDown1", "slike/WizardWalkDown2",
+                           "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
+                           "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
+                           "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
     wizardImg.src = wizardAnimation[0];
     let animationIndex = 0;
@@ -150,9 +150,9 @@ let int1;
     // draw image on canvas
     function displayImage() {
         wizardImg.src = wizardAnimation[animationIndex];
-        ctx.drawImage(wizardImg , charX, charY, 150, 150);
+        ctx.drawImage(wizardImg , charX, charY, 90, 90);
     }
-    function cooldownTOIndex(direction){
+    function cooldownTOIndex(direction){  // Na zacetku postavi v osnovno obliko, nato na vsake 4 premike spremeni Index (bolj smooth animacija)
         if(animationCooldown === 0){
             animationIndex = 0;
         } else if(animationCooldown > 0){
@@ -166,11 +166,12 @@ let int1;
                 } else if(direction === "left"){
                     animationIndex = 9;
                 }
-            } else if(animationCooldown % 4 === 0){   // TUKAJ PODAMO OFFSET (za levo desno gor in dol) desno = 1, ce spreminjas to NAPISI (Vprasaj Aleksa)
+            } else if(animationCooldown % 4 === 0){     // TUKAJ PODAMO OFFSET (za levo desno gor in dol) ce spreminjas WizardAnimation array to NAPISI (Vprasaj Aleksa)
                 if(direction === "down") {
                     animationIndex = (animationIndex + 1) % 3;
                 } else if(direction === "right"){
                     animationIndex = (animationIndex + 1) % 3 + 3;
+                    console.log(animationIndex);
                 } else if(direction === "up"){
                     animationIndex = (animationIndex + 1) % 3 + 6;
                 } else if(direction === "left"){
@@ -180,31 +181,30 @@ let int1;
         }
     }
 
-    document.addEventListener("keydown", function(event) { // moves character with WASD
-        displayImage();
+    document.addEventListener("keydown", function(event) {      // moves character with WASD
         if (event.key === "a") {
             cooldownTOIndex("left");
             animationCooldown++;
-            charX -= 10;
+            charX -= 15;
         } else if (event.key === "d") {
             cooldownTOIndex("right");
             animationCooldown++;
-            charX += 10;
+            charX += 15;
         } else if (event.key === "w") {
             cooldownTOIndex("up");
             animationCooldown++;
-            charY -= 10;
+            charY -= 15;
         } else if (event.key === "s") {
             cooldownTOIndex("down");
             animationCooldown++;
-            charY += 10;
+            charY += 15;
         }
-        // redraw image on canvas with updated position
+        // update position
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         displayImage();
     });
 
-    document.addEventListener("keyup", function(event) { // Stops the movement correctly
+    document.addEventListener("keyup", function(event) {        // Stops the movement correctly
         if (event.key === "a") {
             displayImage();
             animationCooldown = 1;
