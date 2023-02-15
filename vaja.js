@@ -133,7 +133,7 @@ let int1;
     let charX = 1000; // start position of our character
     let charY = 500;
 
-    heartJump(); // hearts jumping on top of the page
+    heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
