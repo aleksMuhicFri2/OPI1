@@ -120,6 +120,7 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
+    $("#infoTab").hide();
 
     let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
     canvas.width = window.innerWidth;
@@ -137,10 +138,10 @@ let int1;
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
-    let wizardAnimation = ["https://art.pixilart.com/thumb/sr2ceb7f30f51bd.png", "https://art.pixilart.com/thumb/sr2e1496ebd68df.png", "https://art.pixilart.com/thumb/sr20b67910862cb.png",
-                           "https://art.pixilart.com/thumb/sr2c66d50b00001.png", "https://art.pixilart.com/thumb/sr2249a95eb59a8.png", "https://art.pixilart.com/thumb/sr255efdc9ee7ed.png",
-                           "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png",
-                           "https://art.pixilart.com/thumb/sr2b908b92af219.png", "https://art.pixilart.com/thumb/sr25933b8c0c36d.png", "https://art.pixilart.com/thumb/sr25f62795ea497.png"];
+    let wizardAnimation = ["slike/WizardFront.png", "slike/WizardWalkDown1", "slike/WizardWalkDown2",
+        "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
+        "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
+        "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
     let animationIndex = 0;
     let animationCooldown = 0;
@@ -250,12 +251,12 @@ let int1;
 
     document.addEventListener('keydown', function(event) {          // InfoTab visible if you hold key "i"
         if (event.key === 'i') {
-            document.getElementById("infoTab").style.visibility = "visible";
+            $("#infoTab").show();
         }
     });
     document.addEventListener('keyup', function(event) {
         if (event.key === 'i') {
-            document.getElementById("infoTab").style.visibility = "hidden";
+            $("#infoTab").hide();
         }
     });
 }
