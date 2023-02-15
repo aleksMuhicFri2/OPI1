@@ -120,7 +120,8 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
-
+    $("#infoTab").hide();
+/*
     let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -133,21 +134,24 @@ let int1;
     let charX = 1000; // start position of our character
     let charY = 500;
 
+ */
+
     heartJump(); // hearts jumping on top of the page
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
-    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
+    //document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
     let wizardAnimation = ["https://art.pixilart.com/thumb/sr2ceb7f30f51bd.png", "https://art.pixilart.com/thumb/sr2e1496ebd68df.png", "https://art.pixilart.com/thumb/sr20b67910862cb.png",
                            "https://art.pixilart.com/thumb/sr2c66d50b00001.png", "https://art.pixilart.com/thumb/sr2249a95eb59a8.png", "https://art.pixilart.com/thumb/sr255efdc9ee7ed.png",
                            "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png",
                            "https://art.pixilart.com/thumb/sr2b908b92af219.png", "https://art.pixilart.com/thumb/sr25933b8c0c36d.png", "https://art.pixilart.com/thumb/sr25f62795ea497.png"];
 
     let animationIndex = 0;
-    let animationCooldown = 0;
+    //let animationCooldown = 0;
     wizardImg.src = wizardAnimation[0];
-    displayImage(); // shows our character on the map
+    //displayImage(); // shows our character on the map
 
     // draw image on canvas
+    /*
     function displayImage() {
         wizardImg.src = wizardAnimation[animationIndex];
         ctx.drawImage(wizardImg , charX, charY, 150, 150);
@@ -225,6 +229,7 @@ let int1;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         displayImage();
     });
+     */
 
 
     function heartJump() {
@@ -250,12 +255,12 @@ let int1;
 
     document.addEventListener('keydown', function(event) {          // InfoTab visible if you hold key "i"
         if (event.key === 'i') {
-            document.getElementById("infoTab").style.visibility = "visible";
+            $("#infoTab").show();
         }
     });
     document.addEventListener('keyup', function(event) {
         if (event.key === 'i') {
-            document.getElementById("infoTab").style.visibility = "hidden";
+            $("#infoTab").hide();
         }
     });
 }
