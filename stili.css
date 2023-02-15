@@ -146,6 +146,14 @@ input[type = "submit"]:hover {
 /*
   =================================================== GAME PAGE ========================================================
  */
+#gameCanvas {
+    width: 100vw;
+    height: 95vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 #coinDiv {
     padding-top: 25px;
     float: right;

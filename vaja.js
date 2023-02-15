@@ -1,6 +1,6 @@
 window.onload = function(){
-    $("#firstPage").show();
-    $("#avatarCreation").hide();
+    $("#firstPage").hide();
+    $("#avatarCreation").show();
     $("#game").hide();
 
 let submitB = document.getElementById("submit"); // submit Button
@@ -117,24 +117,55 @@ let int1;
                 fireball.style.animation = "";
             });
         });
-    //============================================== GAME PAGE =========================================================
 
+    //============================================== GAME PAGE =========================================================
+    let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.zIndex = "-1";
+    const ctx = canvas.getContext("2d");
+
+    let charX = 1000; // start position of our character
+    let charY = 500;
+
+    drawImage(); // shows our character on the map
     heartJump(); // hearts jumping on top of the page
     coinSpin();  // coin spinning function
-
     let coinCount = 0; // how many coins we have
+    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
 
-    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins onn top right
+    // draw image on canvas
+    function drawImage() {
+        ctx.drawImage(wizardImg, charX, charY, 170, 170);
+    }
+    document.addEventListener("keydown", function(event) { // moves character with WASD
+        if (event.key === "a") {
+            charX -= 10;
+        } else if (event.key === "d") {
+            charX += 10;
+        } else if (event.key === "w") {
+            charY -= 10;
+        } else if (event.key === "s") {
+            charY += 10;
+        }
+        // redraw image on canvas with updated position
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawImage();
+    });
+
 
     function heartJump() {
         setTimeout(function() {
-            heart0.style.animation = "heartJump 1s steps(1, end) infinite";
+            heart0.style.animation = "heartJump 2s steps(1, end) infinite";
         },1350);
         setTimeout(function() {
-            heart1.style.animation = "heartJump 1s steps(1, end) infinite";
+            heart1.style.animation = "heartJump 2s steps(1, end) infinite";
         },1500);
         setTimeout(function() {
-            heart2.style.animation = "heartJump 1s steps(1, end) infinite";
+            heart2.style.animation = "heartJump 2s steps(1, end) infinite";
         },1650);
     }
     function coinSpin() {

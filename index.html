@@ -11,8 +11,8 @@
     <img id= "img1" src="https://images7.alphacoders.com/116/thumb-1920-1164041.png" alt= "image lost">
     <div class="container">
         <h1 style="color: black; font-size: 50px">Login</h1>
-        <input id="usernameInput" type="text" placeholder="Username">
-        <input id="passwordInput" type="password" placeholder="Password">
+        <label for="usernameInput"></label><input id="usernameInput" type="text" placeholder="Username">
+        <label for="passwordInput"></label><input id="passwordInput" type="password" placeholder="Password">
         <input id="submit" type="button" value="Submit">
     </div>
 </div>
@@ -25,17 +25,17 @@
         <img id= "wizardFireball" src= "https://art.pixilart.com/thumb/sr2d0e7ff33f544.png" alt= "image lost">
         <img id= "ninjaKunai" src= "https://art.pixilart.com/thumb/sr25a97730f9c10.png" alt= "image lost">
     <div id= "buttonContainer1">
-        <input id= "avatarNameInput" placeholder= "Type in your in-game username">
+        <label for="avatarNameInput"></label><input id= "avatarNameInput" placeholder= "Type in your in-game username">
         <p id= "chooseClass">Choose your Class:</p>
         <button class="classPick" id="ninjaBt"> NINJA </button>
         <button class="classPick" id="sumoBt"> SUMO </button>
         <button class="classPick" id="wizardBt"> WIZARD </button>
     </div>
 </div>
-
 <div id= "game">
+    <canvas id= "gameCanvas"></canvas>
     <div id= "coinDiv">
-        <p id= "coinCount">fkoff</p>
+        <p id= "coinCount"></p>
         <img id= "berryCoin" src= "https://art.pixilart.com/thumb/sr2b3a05f028aab.png" alt= "image lost">
     </div>
     <div id= "heartContainer">
@@ -44,7 +44,7 @@
         <img id= "heart2" src= "https://art.pixilart.com/sr239a612452354.png" alt= "image lost">
     </div>
     <div id= "infoTab">
-        MY DIV
+
     </div>
 </div>
 </body>
