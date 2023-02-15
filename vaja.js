@@ -54,6 +54,7 @@ let int1;
     }
     wizardBt.onclick = function () {
         avatarClass = "wizard";
+        console.log(avatarClass);
         avatarName = document.getElementById("avatarNameInput").value;
         hideAvatarPage();
     }
@@ -119,6 +120,7 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
+
     let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -131,29 +133,86 @@ let int1;
     let charX = 1000; // start position of our character
     let charY = 500;
 
-    drawImage(); // shows our character on the map
     heartJump(); // hearts jumping on top of the page
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
+    let wizardAnimation = ["https://art.pixilart.com/thumb/sr2ceb7f30f51bd.png",
+                      "https://art.pixilart.com/thumb/sr2c66d50b00001.png", "https://art.pixilart.com/thumb/sr2249a95eb59a8.png", "https://art.pixilart.com/thumb/sr255efdc9ee7ed.png",
+                      "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png"];
+    let animationIndex = 0;
+    let animationCooldown = 0;
+    wizardImg.src = wizardAnimation[0];
+    displayImage(); // shows our character on the map
 
     // draw image on canvas
-    function drawImage() {
-        ctx.drawImage(wizardImg, charX, charY, 170, 170);
+    function displayImage() {
+        wizardImg.src = wizardAnimation[animationIndex];
+        ctx.drawImage(wizardImg , charX, charY, 150, 150);
+    }
+    function animationCooldownTOAnimationIndex(direction){
+        if(animationCooldown === 0){
+            animationIndex = 0;
+        } else {
+            if(animationCooldown < 4){       // TUKAJ PODAMO OFFSET (za levo desno gor in dol) desno = 1, ce spreminjas to NAPISI (Vprasaj Aleksa)
+                if(direction === "up") {
+                    animationIndex = 4;
+                } else if(direction === "right"){
+                    animationIndex = 1;
+                } else if(direction === "down"){
+                    console.log("down");
+                } else if(direction === "left"){
+                    console.log("left");
+                }
+            } else if(animationCooldown % 4 === 0){
+                if(direction === "up") {
+                    animationIndex = animationIndex % 3 + 4;
+                } else if(direction === "right"){
+                    animationIndex = animationIndex % 3 + 1;
+                } else if(direction === "down"){
+                    console.log("down");
+                } else if(direction === "left"){
+                    console.log("left");
+                }
+            }
+        }
     }
     document.addEventListener("keydown", function(event) { // moves character with WASD
         if (event.key === "a") {
             charX -= 10;
         } else if (event.key === "d") {
+            animationCooldownTOAnimationIndex("right");
+            animationCooldown++;
             charX += 10;
         } else if (event.key === "w") {
+            animationCooldownTOAnimationIndex("up");
+            animationCooldown++;
             charY -= 10;
         } else if (event.key === "s") {
             charY += 10;
         }
         // redraw image on canvas with updated position
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawImage();
+        displayImage();
+    });
+
+    document.addEventListener("keyup", function(event) { // Stops the movement correctly
+        if (event.key === "a") {
+            displayImage();
+        } else if (event.key === "d") {
+            displayImage();
+            animationCooldown = 1;
+            animationIndex = 1;
+        } else if (event.key === "w") {
+            displayImage();
+            animationCooldown = 1;
+            animationIndex = 4;
+        } else if (event.key === "s") {
+            displayImage();
+        }
+        // redraw image on canvas with updated position
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        displayImage();
     });
 
 
@@ -188,5 +247,4 @@ let int1;
             document.getElementById("infoTab").style.visibility = "hidden";
         }
     });
-
 }
