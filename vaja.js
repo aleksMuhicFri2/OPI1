@@ -140,7 +140,9 @@ let int1;
     let wizardAnimation = ["https://art.pixilart.com/thumb/sr2ceb7f30f51bd.png",
                       "https://art.pixilart.com/thumb/sr2c66d50b00001.png", "https://art.pixilart.com/thumb/sr2249a95eb59a8.png", "https://art.pixilart.com/thumb/sr255efdc9ee7ed.png",
                       "https://art.pixilart.com/thumb/sr22b90b1d157be.png", "https://art.pixilart.com/thumb/sr2cb17362f53d2.png", "https://art.pixilart.com/thumb/sr24290bde9b831.png"];
+    //animacija v wizardAnimation tabeli
     let animationIndex = 0;
+    //na koliko casa se spremeni index
     let animationCooldown = 0;
     wizardImg.src = wizardAnimation[0];
     displayImage(); // shows our character on the map
