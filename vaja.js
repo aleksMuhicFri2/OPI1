@@ -5,6 +5,8 @@ window.onload = function(){
     $("#characterImg").hide();
     $("#infoTab").hide();
 
+
+//============================================================KONSTANTE========================================================================
 let submitB = document.getElementById("submit"); // submit Button
 let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
 let sumoBt = document.getElementById("sumoBt");
@@ -122,25 +124,36 @@ let int1;
             });
         });
 
-    //============================================== GAME PAGE =========================================================
+    //============================================== GAME PAGE ==========================================================================
+    //===================================================================================================================================
+    //===================================================================================================================================
+    //interval za anti flamethrower
     let spaceCooldownCounter = 0;
     let spaceCooldown = setInterval(function(){
         spaceCooldownCounter++;
     }, 10);
 
+//===============================================================IZSTRELKI==============================================================
+
+    //arraya za izstrelke
     let missiles = [];
     let missileIntervals = [];
 
+    //counter za id izstrelkov
+    let counter = 0;
+
+
+    //class za izstrelke
     class Missile{
-        interval;
-        posX;
-        posY;
+        interval; //na to se appenda interval za vsak missile
+        posX; //to je trenutna pozicija X missila
+        posY; //to je trenutna pozicija Y missila
         constructor(counter, type, src, top, left, angle, user){
             this.counter = counter;
             this.type = type;
             this.src = src;
-            this.top = top;
-            this.left = left;
+            this.top = top; //zacetna Y
+            this.left = left; //zacetna X
             this.posY = top;
             this.posX = left;
             this.angle = angle;
@@ -148,8 +161,11 @@ let int1;
         }
     }
 
-    let counter = 0;
+    //slika characterja
     const characterImg = document.getElementById("characterImg");
+
+
+//============================================================FUNKCIJA ZA DODAJANJE IZSTRELKOV========================================================================
 
     function appendImage(missile) {
         document.body.appendChild(missile);
@@ -173,47 +189,31 @@ let int1;
         image.interval = setInterval(function(){
             missileFly(missile, image, 500);
         }, 20);
-        return missile;
     }
 
+//============================================================KONSTANTE ZA ANIMACIJE IN QUALITY OF LIFE========================================================================
 
-    heartJump(); // hearts jumping on top of the pagee
-    coinSpin();  // coin spinning function
-    let coinCount = 0; // how many coins we have
-    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
+
     let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
 
+    //============================================================MOUSEMOVE========================================================================
 
     document.addEventListener("mousemove", function(event) {
         updateDirection(event);
         //console.log(angle);
     });
 
-    let animationIndex = 0; //for animation purposes(glej spodaj)
-    let animationCooldown = 0;//change for faster change of animation
-    characterImg.src = wizardAnimation[0];//start animation
-    let charX = 1000; // start position of our character
-    let charY = 500; //also start position
-    let cursorX;
-    let cursorY;
+//============================================================KEYDOWN========================================================================
 
-    //keys za gledanje kateri so pritisnjeni
-    let keyA = false;
-    let keyS = false;
-    let keyD = false;
-    let keyW = false;
-    let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja
-    let updateP = false;    //spremenljivka, ki je true, ko je interval nastavljen in false, ko ni
-
-//keydown funkcija
     document.addEventListener("keydown", function(event) {
         //console.log(event.key);
         //settanje intervala
         if(event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
+            //seta interval za updatanje pozicije
             if(!updateP){
                 intervalUpdate = setInterval(function() {
                     updateAnimationAndMove(keyA, keyS, keyW, keyD);
@@ -222,6 +222,7 @@ let int1;
                 updateP = true;
             }
             //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
+            //razni keydowni
             if (event.key === "a") {
                 if (!keyA) {
                     keyA = true;
@@ -243,26 +244,32 @@ let int1;
                 }
             }
         }
+        //odpre infotab
         if (event.key === 'i') {
             $("#infoTab").show();
         }
         if (event.key === ' ') {
-            console.log(spaceCooldownCounter)
-               if(spaceCooldownCounter > 40){
-                   let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
-                   createImage(image);
-                   spaceCooldownCounter = 0;
+            console.log(spaceCooldownCounter);
+            //da ni flamethrower
+            if(spaceCooldownCounter > 40){
+                let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
+                createImage(image);
+                spaceCooldownCounter = 0;
             }
         }
     });
 
-//funkcija za keyup
+
+//============================================================KEYUP========================================================================
+
     document.addEventListener("keyup", function(event) {
+        //zapre info tab
         if (event.key === 'i') {
             $("#infoTab").hide();
         }
+        //razni keyupi
         if (event.key === "a") {
-                keyA = false;
+            keyA = false;
         }
         if (event.key === "d") {
             keyD = false;
@@ -282,6 +289,32 @@ let int1;
             animationIndex = 0;
         }
     });
+
+//============================================================KONSTANTE ZA KEYE, POZICIJE IN ANIMACIJE STVARI========================================================================
+
+    let animationIndex = 0; //for animation purposes(glej spodaj)
+    let animationCooldown = 0;//change for faster change of animation
+
+
+    characterImg.src = wizardAnimation[0];//start animation
+
+
+    let charX = 1000; // start position of our character
+    let charY = 500; //also start position
+    let cursorX;
+    let cursorY;
+
+    //keys za gledanje kateri so pritisnjeni
+    let keyA = false;
+    let keyS = false;
+    let keyD = false;
+    let keyW = false;
+
+
+    let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja characterja
+    let updateP = false;    //spremenljivka, ki je true, ko je interval za premikanje nastavljen in false, ko ni
+
+    //============================================================UPDATANJE IZSTRELKOV========================================================================
 
     function missileFly(missile, image, range){
         let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
@@ -310,6 +343,8 @@ let int1;
         return Math.sqrt(Math.pow(posX1 - posX2, 2) + Math.pow(posY1 - posY2, 2));
     }
 
+//============================================================OBRACANJE IN PREMIKANJE CHARACTERJA========================================================================
+
     function updateDirection(event){
         if(event){
             cursorX = event.clientX;
@@ -333,6 +368,7 @@ let int1;
         //console.log("Cursor location: " + cursorX + ", " + cursorY);
     }
 
+    //returna angle med cursorjem in characterjem
     function returnAngle(){
         const xDiff = cursorX - charX - 50;
         const yDiff = cursorY - charY - 50;
@@ -389,6 +425,8 @@ let int1;
         characterImg.src = wizardAnimation[animacija];
     }
 
+//============================================================HEARTJUMP========================================================================
+
 
     function heartJump() {
         setTimeout(function() {
@@ -401,6 +439,15 @@ let int1;
             heart2.style.animation = "heartJump 2s steps(1, end) infinite";
         },1650);
     }
+
+    heartJump(); // hearts jumping on top of the pagee
+
+
+//============================================================COINSPIN========================================================================
+
+    let coinCount = 0; // how many coins we have
+    document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
+
     function coinSpin() {
         let spinIndex = 0;
         let coinImages = ["https://art.pixilart.com/thumb/sr2b3a05f028aab.png", "https://art.pixilart.com/thumb/sr26cad9a64b482.png",
@@ -410,4 +457,7 @@ let int1;
             coin.src = coinImages[spinIndex];
         },200);
     }
+
+    coinSpin();  // coin spinning function
+    //============================================================TODO========================================================================
 }
