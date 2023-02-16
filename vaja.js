@@ -128,20 +128,14 @@ let int1;
     const characterImg = document.getElementById("characterImg");
 
     let fireballMissile = document.createElement("fireballMissile" + counter);
-    fireballMissile.src = "slike/WizardFront.png";
+    fireballMissile.src = "slike/WizardFireball.png";
     fireballMissile.style.position = "absolute";
     fireballMissile.style.top = "50";
 
     function appendImage() {
-        document.body.appendChild(fireballMissile.cloneNode());
+        document.body.appendChild(fireballMissile);
     }
 
-    document.addEventListener('keydown', function shootFireball(event) {
-        if (event.key === 'Space') {
-            console.log("idiot");
-            appendImage();
-        }
-    });
 
     heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
@@ -169,36 +163,43 @@ let int1;
 
 //keydown funkcija
     document.addEventListener("keydown", function(event) {
+        console.log(event.key);
         //settanje intervala
-        if(!updateP){
-            intervalUpdate = setInterval(function() {
-                update(keyA, keyS, keyW, keyD);
-            }, 20);
-            updateP = true;
-        }
-        //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
+        if(event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
+            if(!updateP){
+                intervalUpdate = setInterval(function() {
+                    update(keyA, keyS, keyW, keyD);
+                }, 20);
+                updateP = true;
+            }
+            //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
             if (event.key === "a") {
-                if(!keyA){
+                if (!keyA) {
                     keyA = true;
                 }
             }
             if (event.key === "d") {
-                if(!keyD){
+                if (!keyD) {
                     keyD = true;
                 }
             }
             if (event.key === "w") {
-                if(!keyW){
+                if (!keyW) {
                     keyW = true;
                 }
             }
             if (event.key === "s") {
-                if(!keyS){
+                if (!keyS) {
                     keyS = true;
                 }
             }
+        }
         if (event.key === 'i') {
             $("#infoTab").show();
+        }
+        if (event.key === ' ') {
+            console.log("idiot");
+            appendImage();
         }
     });
 
