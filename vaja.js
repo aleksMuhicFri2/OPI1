@@ -174,7 +174,7 @@ let int1;
         updateDirection(event);
         //console.log(angle);
     });
-
+//a
     let animationIndex = 0; //for animation purposes(glej spodaj)
     let animationCooldown = 0;//change for faster change of animation
     characterImg.src = wizardAnimation[0];//start animation
