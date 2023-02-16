@@ -198,7 +198,6 @@ let int1;
             $("#infoTab").show();
         }
         if (event.key === ' ') {
-            console.log("idiot");
             appendImage();
         }
     });
