@@ -123,17 +123,41 @@ let int1;
 
     //============================================== GAME PAGE =========================================================
     $("#infoTab").hide();
+    let missiles = [];
+
+    class Missile{
+        constructor(counter, type, src, top, left, direction, rotation, user){
+            this.counter = counter;
+            this.type = type;
+            this.src = src;
+            this.top = top;
+            this.left = left;
+            this.direction = direction;
+            this.user = user;
+        }
+    }
 
     let counter = 0;
     const characterImg = document.getElementById("characterImg");
 
-    let fireballMissile = document.createElement("fireballMissile" + counter);
-    fireballMissile.src = "slike/WizardFireball.png";
-    fireballMissile.style.position = "absolute";
-    fireballMissile.style.top = "50";
+    function appendImage(missile) {
+        document.body.appendChild(missile);
+    }
 
-    function appendImage() {
-        document.body.appendChild(fireballMissile);
+    function createImage(image){
+        console.log(`${image.counter} , ${image.type} , ${image.src} , ${image.top} , ${image.left} , ${image.direction} , ${image.rotation} , ${image.user} ,`)
+        let missile = document.createElement("img");
+        missile.style.width = "100px";
+        missile.style.width = "100px";
+        missile.style.position = "absolute";
+        missile.id = image.type + counter;
+        counter++;
+        missile.src = image.src;
+        missile.style.top = image.top;
+        missile.style.left = image.left;
+        missile.style.transform = `rotate( ${image.rotation} deg)`;
+        missiles.add(missile);
+        appendImage(missile);
     }
 
 
@@ -145,6 +169,28 @@ let int1;
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
+
+    document.addEventListener("mousemove", function(event) {
+        let cursorX = event.clientX;
+        let cursorY = event.clientY;
+        const xDiff = cursorX - charX - 50;
+        const yDiff = cursorY - charY - 50;
+        const angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
+            if(angle < 45 && angle > -45){
+                spremeniAnimacijo(3 + animationIndex % 3);
+            }
+        if(angle > 45 && angle < 135){
+            spremeniAnimacijo(animationIndex % 3);
+        }
+        if(angle > 135 && angle < 180 || angle > -180 && angle < -135){
+            spremeniAnimacijo( 9 + animationIndex % 3);
+        }
+        if(angle < -45 && angle > -135){
+            spremeniAnimacijo(6 + animationIndex % 3);
+        }
+        console.log("Cursor location: " + cursorX + ", " + cursorY);
+        //console.log(angle);
+    });
 
     let animationIndex = 0; //for animation purposes(glej spodaj)
     let animationCooldown = 0;//change for faster change of animation
@@ -163,7 +209,7 @@ let int1;
 
 //keydown funkcija
     document.addEventListener("keydown", function(event) {
-        console.log(event.key);
+        //console.log(event.key);
         //settanje intervala
         if(event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
             if(!updateP){
@@ -198,7 +244,9 @@ let int1;
             $("#infoTab").show();
         }
         if (event.key === ' ') {
-            appendImage();
+            let direction = getDirection(keyA, keyD, keyS, keyW);
+            let image = new Missile(counter, fireball, "slike/WizardFireball", charY - 15, charX + 40, direction, getRotation(direction), "player");
+            createImage(image);
         }
     });
 
@@ -232,7 +280,7 @@ let int1;
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
     function update(keyA, keyS, keyW, keyD){
         let offset = 0;
-
+        console.log("character log" + charX + ", " +  charY);
         animationCooldown++;
         if(animationCooldown === 5){
             animationCooldown = 0;
@@ -270,7 +318,6 @@ let int1;
             offset = 9;
         }
         spremeniPozicijo(charY, charX);
-        spremeniAnimacijo(offset + animationIndex % 3);
     }
 
     //funkcija ki spreminja pozicijo
@@ -282,6 +329,56 @@ let int1;
     //funkcija ki characterju spreminja animacijo
     function spremeniAnimacijo(animacija){
         characterImg.src = wizardAnimation[animacija];
+    }
+
+    function getDirection(keyA, keyD, keyS, keyW){
+        let direction = "";
+        if(keyS){
+            direction = "dol";
+            if(keyA){
+                direction = "ld";
+            }
+            if(keyD){
+                direction = "dd";
+            }
+        }
+        if(keyW){
+            direction = "gor";
+            if(keyA){
+                direction = "lg";
+            }
+            if(keyD){
+                direction = "dg";
+            }
+        }
+        if(keyD){
+            direction = "desno";
+        }
+        if(keyA){
+            direction = "levo";
+        }
+        return direction;
+    }
+
+    function getRotation(direction){
+        switch(direction){
+            case "desno":
+                return "rotate(0deg)";
+            case "levo":
+                return "rotate(180deg)";
+            case "gor":
+                return "rotate(90deg)";
+            case "dol":
+                return "rotate(270deg)";
+            case "dd":
+                return "rotate(315deg)";
+            case "dg":
+                return 45;
+            case "lg":
+                return 135;
+            default:
+                return 225;
+        }
     }
 
     function heartJump() {
