@@ -155,11 +155,19 @@ let int1;
     let keyS = false;
     let keyD = false;
     let keyW = false;
+    let intervalUpdate;
+    let updateP = false;
 
     document.addEventListener("keydown", function(event) {
+        if(!updateP){
+            intervalUpdate = setInterval(function() {
+                update(keyA, keyS, keyW, keyD)
+            }, 40);
+            updateP = true;
+        }
         console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
         animationCooldown++;
-        if(animationCooldown === 4){
+        if(animationCooldown === 3){
             animationCooldown = 0;
             animationIndex++;
         }
@@ -186,24 +194,39 @@ let int1;
         if (event.key === 'i') {
             $("#infoTab").show();
         }
-        update(keyA, keyS, keyW, keyD);
     });
 
     function update(keyA, keyS, keyW, keyD){
         let offset = 0;
         if(keyS){
-            charY += 10;
+            if(keyA || keyD){
+                charY += 7;
+            }else {
+                charY += 10;
+            }
         }
         if(keyW){
-            charY -= 10;
+            if(keyA || keyD){
+                charY -= 7;
+            }else {
+                charY -= 10;
+            }
             offset = 6;
         }
         if(keyD){
-            charX += 10;
+            if(keyS || keyW){
+                charX += 7;
+            }else {
+                charX += 10;
+            }
             offset = 3;
         }
         if(keyA){
-            charX -= 10;
+            if(keyA || keyD){
+                charX -= 7;
+            }else {
+                charX -= 10;
+            }
             offset = 9;
         }
         spremeniPozicijo(charY, charX);
@@ -235,9 +258,10 @@ let int1;
         if (event.key === "s") {
             keyS = false;
         }
-        update(keyA, keyS, keyW, keyD);
         // Stops the movement correctly
         if(!keyA && !keyS && !keyW && !keyD){
+            clearInterval(intervalUpdate);
+            updateP = false;
             characterImg.src = wizardAnimation[0];
             animationCooldown = 0;
             animationIndex = 0;
