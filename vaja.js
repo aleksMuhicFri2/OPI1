@@ -123,20 +123,26 @@ let int1;
 
     //============================================== GAME PAGE =========================================================
     $("#infoTab").hide();
-    const characterImg = document.getElementById("characterImg");
-/*
-    let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.style.position = "fixed";
-    canvas.style.top = "0";
-    canvas.style.left = "0";
-    canvas.style.zIndex = "-1";
-    const ctx = canvas.getContext("2d");
 
-    let charX = 1000; // start position of our character
-    let charY = 500;
- */
+    let counter = 0;
+    const characterImg = document.getElementById("characterImg");
+
+    let fireballMissile = document.createElement("fireballMissile" + counter);
+    fireballMissile.src = "slike/WizardFront.png";
+    fireballMissile.style.position = "absolute";
+    fireballMissile.style.top = "50";
+
+    function appendImage() {
+        document.body.appendChild(fireballMissile.cloneNode());
+    }
+
+    document.addEventListener('keydown', function shootFireball(event) {
+        if (event.key === 'Space') {
+            console.log("idiot");
+            appendImage();
+        }
+    });
+
     heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
