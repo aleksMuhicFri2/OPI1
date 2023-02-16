@@ -138,14 +138,14 @@ let int1;
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
-    let wizardAnimation = ["slike/WizardFront.png", "slike/WizardWalkDown1", "slike/WizardWalkDown2",
+    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr20b67910862cb.png", "slike/WizardWalkDown2",
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
     let animationIndex = 0;
     let animationCooldown = 0;
-    wizardImg.src = wizardAnimation[0];
+    wizardImg.src = wizardAnimation[animationIndex];
     displayImage(); // shows our character on the map
 
     // draw image on canvas
@@ -157,7 +157,7 @@ let int1;
         if(animationCooldown === 0){
             animationIndex = 0;
         } else if(animationCooldown > 0){
-            if(animationCooldown < 3){
+            if(animationCooldown < 4){
                 if(direction === "down") {
                     animationIndex = 0;
                 } else if(direction === "right"){
@@ -206,21 +206,21 @@ let int1;
 
     document.addEventListener("keyup", function(event) { // Stops the movement correctly
         if (event.key === "a") {
-            displayImage();
             animationCooldown = 3;
             animationIndex = 9;
-        } else if (event.key === "d") {
             displayImage();
+        } else if (event.key === "d") {
             animationCooldown = 3;
             animationIndex = 3;
-        } else if (event.key === "w") {
             displayImage();
+        } else if (event.key === "w") {
             animationCooldown = 3;
             animationIndex = 6;
-        } else if (event.key === "s") {
             displayImage();
+        } else if (event.key === "s") {
             animationCooldown = 3;
             animationIndex = 0;
+            displayImage();
         }
         // redraw image on canvas with updated position
         ctx.clearRect(0, 0, canvas.width, canvas.height);
