@@ -2,6 +2,7 @@ window.onload = function(){
     $("#firstPage").hide();
     $("#avatarCreation").show();
     $("#game").hide();
+    $("#characterImg").hide();
 
 let submitB = document.getElementById("submit"); // submit Button
 let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
@@ -30,16 +31,17 @@ let int1;
     $(document).ready(function() {
         $("#firstPage").hide();
         $("#avatarCreation").show();
-        $("#game").hide();
+        //$("#game").hide();
         });
     }
 
 //=============================================== AVATAR CREATION PAGE =================================================
 
     function hideAvatarPage(){
-        $("#firstPage").hide();
+        //$("#firstPage").hide();
         $("#avatarCreation").hide();
         $("#game").show();
+        $("#characterImg").show();
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -121,7 +123,8 @@ let int1;
 
     //============================================== GAME PAGE =========================================================
     $("#infoTab").hide();
-
+    const characterImg = document.getElementById("characterImg");
+/*
     let canvas = document.getElementById("gameCanvas"); // Creates a Canvas and styles it
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -133,100 +136,145 @@ let int1;
 
     let charX = 1000; // start position of our character
     let charY = 500;
-
+ */
     heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
     let coinCount = 0; // how many coins we have
     document.getElementById("coinCount").textContent = coinCount.toString(); // Display of our number of coins on top right
-    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr20b67910862cb.png", "slike/WizardWalkDown2",
+    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
-    let animationIndex = 0;
-    let animationCooldown = 0;
-    wizardImg.src = wizardAnimation[animationIndex];
-    displayImage(); // shows our character on the map
+    let animationIndex = 0; //for animation purposes(glej spodaj)
+    let animationCooldown = 0;//change for faster change of animation
+    characterImg.src = wizardAnimation[0];//start animation
+    let charX = 1000; // start position of our character
+    let charY = 500; //also start position
+    //keys za gledanje kateri so pritisnjeni
+    let keyA = false;
+    let keyS = false;
+    let keyD = false;
+    let keyW = false;
+    let intervalUpdate;//variable za settanje intervala za update animacije in polozaja
+    let updateP = false; //spremenljivka, ki je true, ko je interval nastavljen in false, ko ni
 
-    // draw image on canvas
-    function displayImage() {
-        wizardImg.src = wizardAnimation[animationIndex];
-        ctx.drawImage(wizardImg , charX, charY, 150, 150);
-    }
-    function cooldownTOIndex(direction){
-        if(animationCooldown === 0){
-            animationIndex = 0;
-        } else if(animationCooldown > 0){
-            if(animationCooldown < 4){
-                if(direction === "down") {
-                    animationIndex = 0;
-                } else if(direction === "right"){
-                    animationIndex = 3;
-                } else if(direction === "up"){
-                    animationIndex = 6;
-                } else if(direction === "left"){
-                    animationIndex = 9;
-                }
-            } else if(animationCooldown % 4 === 0){   // TUKAJ PODAMO OFFSET (za levo desno gor in dol) desno = 1, ce spreminjas to NAPISI (Vprasaj Aleksa)
-                if(direction === "down") {
-                    animationIndex = (animationIndex + 1) % 3;
-                } else if(direction === "right"){
-                    animationIndex = (animationIndex + 1) % 3 + 3;
-                } else if(direction === "up"){
-                    animationIndex = (animationIndex + 1) % 3 + 6;
-                } else if(direction === "left"){
-                    animationIndex = (animationIndex + 1) % 3 + 9;
+
+//keydown funkcija
+    document.addEventListener("keydown", function(event) {
+        //settanje intervala
+        if(!updateP){
+            intervalUpdate = setInterval(function() {
+                update(keyA, keyS, keyW, keyD)
+            }, 40);
+            updateP = true;
+        }
+        //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
+        animationCooldown++;
+        if(animationCooldown === 3){
+            animationCooldown = 0;
+            animationIndex++;
+        }
+            if (event.key === "a") {
+                if(!keyA){
+                    keyA = true;
                 }
             }
+            if (event.key === "d") {
+                if(!keyD){
+                    keyD = true;
+                }
+            }
+            if (event.key === "w") {
+                if(!keyW){
+                    keyW = true;
+                }
+            }
+            if (event.key === "s") {
+                if(!keyS){
+                    keyS = true;
+                }
+            }
+        if (event.key === 'i') {
+            $("#infoTab").show();
         }
+    });
+
+//funkcija za keyup
+    document.addEventListener("keyup", function(event) {
+        if (event.key === 'i') {
+            $("#infoTab").hide();
+        }
+        if (event.key === "a") {
+                keyA = false;
+        }
+        if (event.key === "d") {
+            keyD = false;
+        }
+        if (event.key === "w") {
+            keyW = false;
+        }
+        if (event.key === "s") {
+            keyS = false;
+        }
+        // Stops the movement correctly
+        if(!keyA && !keyS && !keyW && !keyD){
+            clearInterval(intervalUpdate);
+            updateP = false;
+            characterImg.src = wizardAnimation[0];
+            animationCooldown = 0;
+            animationIndex = 0;
+        }
+    });
+
+    //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
+    function update(keyA, keyS, keyW, keyD){
+        let offset = 0;
+        if(keyS){
+            if(keyA || keyD){
+                charY += 7;
+            }else {
+                charY += 10;
+            }
+        }
+        if(keyW){
+            if(keyA || keyD){
+                charY -= 7;
+            }else {
+                charY -= 10;
+            }
+            offset = 6;
+        }
+        if(keyD){
+            if(keyS || keyW){
+                charX += 7;
+            }else {
+                charX += 10;
+            }
+            offset = 3;
+        }
+        if(keyA){
+            if(keyA || keyD){
+                charX -= 7;
+            }else {
+                charX -= 10;
+            }
+            offset = 9;
+        }
+        spremeniPozicijo(charY, charX);
+        spremeniAnimacijo(offset + animationIndex % 3);
     }
 
-    document.addEventListener("keydown", function(event) { // moves character with WASD
-        if (event.key === "a") {
-            cooldownTOIndex("left");
-            animationCooldown++;
-            charX -= 10;
-        } else if (event.key === "d") {
-            cooldownTOIndex("right");
-            animationCooldown++;
-            charX += 10;
-        } else if (event.key === "w") {
-            cooldownTOIndex("up");
-            animationCooldown++;
-            charY -= 10;
-        } else if (event.key === "s") {
-            cooldownTOIndex("down");
-            animationCooldown++;
-            charY += 10;
-        }
-        // redraw image on canvas with updated position
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        displayImage();
-    });
+    //funkcija ki spreminja pozicijo
+    function spremeniPozicijo(top, left){
+        characterImg.style.left = left + "px";
+        characterImg.style.top = top + "px";
+    }
 
-    document.addEventListener("keyup", function(event) { // Stops the movement correctly
-        if (event.key === "a") {
-            animationCooldown = 3;
-            animationIndex = 9;
-            displayImage();
-        } else if (event.key === "d") {
-            animationCooldown = 3;
-            animationIndex = 3;
-            displayImage();
-        } else if (event.key === "w") {
-            animationCooldown = 3;
-            animationIndex = 6;
-            displayImage();
-        } else if (event.key === "s") {
-            animationCooldown = 3;
-            animationIndex = 0;
-            displayImage();
-        }
-        // redraw image on canvas with updated position
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        displayImage();
-    });
-
+    //funkcija ki characterju spreminja animacijo
+    function spremeniAnimacijo(animacija){
+        characterImg.src = wizardAnimation[animacija];
+    }
 
     function heartJump() {
         setTimeout(function() {
@@ -248,15 +296,4 @@ let int1;
             coin.src = coinImages[spinIndex];
         },200);
     }
-
-    document.addEventListener('keydown', function(event) {          // InfoTab visible if you hold key "i"
-        if (event.key === 'i') {
-            $("#infoTab").show();
-        }
-    });
-    document.addEventListener('keyup', function(event) {
-        if (event.key === 'i') {
-            $("#infoTab").hide();
-        }
-    });
 }
