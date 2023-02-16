@@ -171,24 +171,7 @@ let int1;
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
 
     document.addEventListener("mousemove", function(event) {
-        let cursorX = event.clientX;
-        let cursorY = event.clientY;
-        const xDiff = cursorX - charX - 50;
-        const yDiff = cursorY - charY - 50;
-        const angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
-            if(angle < 45 && angle > -45){
-                spremeniAnimacijo(3 + animationIndex % 3);
-            }
-        if(angle > 45 && angle < 135){
-            spremeniAnimacijo(animationIndex % 3);
-        }
-        if(angle > 135 && angle < 180 || angle > -180 && angle < -135){
-            spremeniAnimacijo( 9 + animationIndex % 3);
-        }
-        if(angle < -45 && angle > -135){
-            spremeniAnimacijo(6 + animationIndex % 3);
-        }
-        console.log("Cursor location: " + cursorX + ", " + cursorY);
+        updateDirection(event);
         //console.log(angle);
     });
 
@@ -197,6 +180,8 @@ let int1;
     characterImg.src = wizardAnimation[0];//start animation
     let charX = 1000; // start position of our character
     let charY = 500; //also start position
+    let cursorX;
+    let cursorY;
 
     //keys za gledanje kateri so pritisnjeni
     let keyA = false;
@@ -214,7 +199,8 @@ let int1;
         if(event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
             if(!updateP){
                 intervalUpdate = setInterval(function() {
-                    update(keyA, keyS, keyW, keyD);
+                    updateAnimationAndMove(keyA, keyS, keyW, keyD);
+                    updateDirection();
                 }, 20);
                 updateP = true;
             }
@@ -277,10 +263,32 @@ let int1;
         }
     });
 
+    function updateDirection(event){
+        if(event){
+            cursorX = event.clientX;
+            cursorY = event.clientY;
+        }
+        const xDiff = cursorX - charX - 50;
+        const yDiff = cursorY - charY - 50;
+        const angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
+        if(angle < 45 && angle > -45){
+            spremeniAnimacijo(3 + animationIndex % 3);
+        }
+        if(angle > 45 && angle < 135){
+            spremeniAnimacijo(animationIndex % 3);
+        }
+        if(angle > 135 && angle < 180 || angle > -180 && angle < -135){
+            spremeniAnimacijo( 9 + animationIndex % 3);
+        }
+        if(angle < -45 && angle > -135){
+            spremeniAnimacijo(6 + animationIndex % 3);
+        }
+        //console.log("Cursor location: " + cursorX + ", " + cursorY);
+    }
+
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
-    function update(keyA, keyS, keyW, keyD){
-        let offset = 0;
-        console.log("character log" + charX + ", " +  charY);
+    function updateAnimationAndMove(keyA, keyS, keyW, keyD){
+        //console.log("character log" + charX + ", " +  charY);
         animationCooldown++;
         if(animationCooldown === 5){
             animationCooldown = 0;
@@ -299,7 +307,6 @@ let int1;
             }else {
                 charY -= 5;
             }
-            offset = 6;
         }
         if(keyD){
             if(keyS || keyW){
@@ -307,7 +314,6 @@ let int1;
             }else {
                 charX += 5;
             }
-            offset = 3;
         }
         if(keyA){
             if(keyS || keyW){
@@ -315,7 +321,6 @@ let int1;
             }else {
                 charX -= 5;
             }
-            offset = 9;
         }
         spremeniPozicijo(charY, charX);
     }
@@ -331,55 +336,6 @@ let int1;
         characterImg.src = wizardAnimation[animacija];
     }
 
-    function getDirection(keyA, keyD, keyS, keyW){
-        let direction = "";
-        if(keyS){
-            direction = "dol";
-            if(keyA){
-                direction = "ld";
-            }
-            if(keyD){
-                direction = "dd";
-            }
-        }
-        if(keyW){
-            direction = "gor";
-            if(keyA){
-                direction = "lg";
-            }
-            if(keyD){
-                direction = "dg";
-            }
-        }
-        if(keyD){
-            direction = "desno";
-        }
-        if(keyA){
-            direction = "levo";
-        }
-        return direction;
-    }
-
-    function getRotation(direction){
-        switch(direction){
-            case "desno":
-                return "rotate(0deg)";
-            case "levo":
-                return "rotate(180deg)";
-            case "gor":
-                return "rotate(90deg)";
-            case "dol":
-                return "rotate(270deg)";
-            case "dd":
-                return "rotate(315deg)";
-            case "dg":
-                return 45;
-            case "lg":
-                return 135;
-            default:
-                return 225;
-        }
-    }
 
     function heartJump() {
         setTimeout(function() {
