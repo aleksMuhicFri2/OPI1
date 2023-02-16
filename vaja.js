@@ -254,7 +254,7 @@ let int1;
             offset = 3;
         }
         if(keyA){
-            if(keyA || keyD){
+            if(keyS || keyW){
                 charX -= 7;
             }else {
                 charX -= 10;
