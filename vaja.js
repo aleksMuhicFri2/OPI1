@@ -165,16 +165,12 @@ let int1;
         //settanje intervala
         if(!updateP){
             intervalUpdate = setInterval(function() {
-                update(keyA, keyS, keyW, keyD)
-            }, 40);
+                update(keyA, keyS, keyW, keyD);
+            }, 20);
             updateP = true;
         }
         //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
-        animationCooldown++;
-        if(animationCooldown === 3){
-            animationCooldown = 0;
-            animationIndex++;
-        }
+
             if (event.key === "a") {
                 if(!keyA){
                     keyA = true;
@@ -230,34 +226,40 @@ let int1;
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
     function update(keyA, keyS, keyW, keyD){
         let offset = 0;
+
+        animationCooldown++;
+        if(animationCooldown === 3){
+            animationCooldown = 0;
+            animationIndex++;
+        }
         if(keyS){
             if(keyA || keyD){
-                charY += 7;
+                charY += 3;
             }else {
-                charY += 10;
+                charY += 5;
             }
         }
         if(keyW){
             if(keyA || keyD){
-                charY -= 7;
+                charY -= 3;
             }else {
-                charY -= 10;
+                charY -= 5;
             }
             offset = 6;
         }
         if(keyD){
             if(keyS || keyW){
-                charX += 7;
+                charX += 3;
             }else {
-                charX += 10;
+                charX += 5;
             }
             offset = 3;
         }
         if(keyA){
             if(keyS || keyW){
-                charX -= 7;
+                charX -= 3;
             }else {
-                charX -= 10;
+                charX -= 5;
             }
             offset = 9;
         }
