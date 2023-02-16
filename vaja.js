@@ -122,26 +122,17 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
+
     $("#infoTab").hide();
 
     let counter = 0;
     const characterImg = document.getElementById("characterImg");
 
-    let fireballMissile = document.createElement("fireballMissile" + counter);
-    fireballMissile.src = "slike/WizardFront.png";
+    let fireballMissile = document.createElement("fireballMissile");
+    fireballMissile.src = "slike/WizardFireball.png";
     fireballMissile.style.position = "absolute";
     fireballMissile.style.top = "50";
-
-    function appendImage() {
-        document.body.appendChild(fireballMissile.cloneNode());
-    }
-
-    document.addEventListener('keydown', function shootFireball(event) {
-        if (event.key === 'Space') {
-            console.log("idiot");
-            appendImage();
-        }
-    });
+    fireballMissile.style.left = "100";
 
     heartJump(); // hearts jumping on top of the pagee
     coinSpin();  // coin spinning function
@@ -169,6 +160,7 @@ let int1;
 
 //keydown funkcija
     document.addEventListener("keydown", function(event) {
+
         //settanje intervala
         if(!updateP){
             intervalUpdate = setInterval(function() {
@@ -200,6 +192,11 @@ let int1;
         if (event.key === 'i') {
             $("#infoTab").show();
         }
+        if (event.key === " ") {
+            document.body.appendChild(fireballMissile);
+        }
+
+
     });
 
 //funkcija za keyup
