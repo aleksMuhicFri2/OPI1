@@ -1,6 +1,6 @@
 body{
     background-color: black;
-    cursor: url("slike/WizardWand.png"), auto;
+    overflow: hidden;
 }
 .container {
     position: absolute;
@@ -147,10 +147,6 @@ input[type = "submit"]:hover {
 /*
   =================================================== GAME PAGE ========================================================
  */
-#game {
-    height: 95vh;
-    width: 100vw;
-}
 #coinDiv {
     padding-top: 25px;
     float: right;

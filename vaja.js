@@ -3,6 +3,7 @@ window.onload = function(){
     $("#avatarCreation").show();
     $("#game").hide();
     $("#characterImg").hide();
+    $("#infoTab").hide();
 
 let submitB = document.getElementById("submit"); // submit Button
 let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
@@ -122,17 +123,22 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
-    $("#infoTab").hide();
     let missiles = [];
+    let missileIntervals = [];
 
     class Missile{
-        constructor(counter, type, src, top, left, direction, rotation, user){
+        interval;
+        posX;
+        posY;
+        constructor(counter, type, src, top, left, angle, user){
             this.counter = counter;
             this.type = type;
             this.src = src;
             this.top = top;
             this.left = left;
-            this.direction = direction;
+            this.posY = top;
+            this.posX = left;
+            this.angle = angle;
             this.user = user;
         }
     }
@@ -145,7 +151,7 @@ let int1;
     }
 
     function createImage(image){
-        console.log(`${image.counter} , ${image.type} , ${image.src} , ${image.top} , ${image.left} , ${image.direction} , ${image.rotation} , ${image.user} ,`)
+        console.log(`${image.counter} , ${image.type} , ${image.src} , ${image.top} , ${image.left} , ${image.angle} , ${image.user} ,`)
         let missile = document.createElement("img");
         missile.style.width = "100px";
         missile.style.width = "100px";
@@ -153,11 +159,16 @@ let int1;
         missile.id = image.type + counter;
         counter++;
         missile.src = image.src;
-        missile.style.top = image.top;
-        missile.style.left = image.left;
-        missile.style.transform = `rotate( ${image.rotation} deg)`;
-        missiles.add(missile);
+        missile.style.top = image.top + "px";
+        missile.style.left = image.left + "px";
+        missile.style.transform = `rotate(${image.angle}deg)`;
+        missiles.push(missile);
         appendImage(missile);
+        console.log(missiles + ", " + missileIntervals);
+        missile.interval = setInterval(function(){
+            missileFly(missile, image, 500);
+        }, 20);
+        return missile;
     }
 
 
@@ -169,6 +180,8 @@ let int1;
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
         "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
         "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
+
+
 
     document.addEventListener("mousemove", function(event) {
         updateDirection(event);
@@ -230,9 +243,9 @@ let int1;
             $("#infoTab").show();
         }
         if (event.key === ' ') {
-            let direction = getDirection(keyA, keyD, keyS, keyW);
-            let image = new Missile(counter, fireball, "slike/WizardFireball", charY - 15, charX + 40, direction, getRotation(direction), "player");
+            let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
             createImage(image);
+
         }
     });
 
@@ -263,6 +276,33 @@ let int1;
         }
     });
 
+    function missileFly(missile, image, range){
+        let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
+        console.log(razdalja);
+        if(razdalja < range){
+            const distance = 39.5;
+// Convert the direction from degrees to radians
+            const radians = image.angle * (Math.PI / 180);
+// Calculate the horizontal and vertical components of the movement
+            const deltaX = distance * Math.cos(radians);
+            const deltaY = distance * Math.sin(radians);
+// Get the current position of the element
+            image.posX +=  deltaX;
+            image.posY += deltaY;
+
+            missile.style.left = image.posX + "px";
+            missile.style.top = image.posY + "px";
+        }else{
+            missile.src = "";
+            missiles.delete(missile);
+            clearInterval(image.interval);
+        }
+    }
+
+    function vrniRazdaljo(posX1, posX2, posY1, posY2){
+        return Math.sqrt(Math.pow(posX1 - posX2, 2) + Math.pow(posY1 - posY2, 2));
+    }
+
     function updateDirection(event){
         if(event){
             cursorX = event.clientX;
@@ -284,6 +324,12 @@ let int1;
             spremeniAnimacijo(6 + animationIndex % 3);
         }
         //console.log("Cursor location: " + cursorX + ", " + cursorY);
+    }
+
+    function returnAngle(){
+        const xDiff = cursorX - charX - 50;
+        const yDiff = cursorY - charY - 50;
+        return Math.atan2(yDiff, xDiff) * 180 / Math.PI;
     }
 
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
