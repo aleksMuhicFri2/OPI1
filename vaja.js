@@ -123,6 +123,11 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
+    let spaceCooldownCounter = 0;
+    let spaceCooldown = setInterval(function(){
+        spaceCooldownCounter++;
+    }, 10);
+
     let missiles = [];
     let missileIntervals = [];
 
@@ -165,7 +170,7 @@ let int1;
         missiles.push(missile);
         appendImage(missile);
         console.log(missiles + ", " + missileIntervals);
-        missile.interval = setInterval(function(){
+        image.interval = setInterval(function(){
             missileFly(missile, image, 500);
         }, 20);
         return missile;
@@ -203,7 +208,6 @@ let int1;
     let keyW = false;
     let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja
     let updateP = false;    //spremenljivka, ki je true, ko je interval nastavljen in false, ko ni
-
 
 //keydown funkcija
     document.addEventListener("keydown", function(event) {
@@ -243,9 +247,12 @@ let int1;
             $("#infoTab").show();
         }
         if (event.key === ' ') {
-            let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
-            createImage(image);
-
+            console.log(spaceCooldownCounter)
+               if(spaceCooldownCounter > 40){
+                   let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
+                   createImage(image);
+                   spaceCooldownCounter = 0;
+            }
         }
     });
 
@@ -294,7 +301,7 @@ let int1;
             missile.style.top = image.posY + "px";
         }else{
             missile.src = "";
-            missiles.delete(missile);
+           // missiles.delete(missile);
             clearInterval(image.interval);
         }
     }
