@@ -151,13 +151,14 @@ let int1;
     characterImg.src = wizardAnimation[0];//start animation
     let charX = 1000; // start position of our character
     let charY = 500; //also start position
+
     //keys za gledanje kateri so pritisnjeni
     let keyA = false;
     let keyS = false;
     let keyD = false;
     let keyW = false;
-    let intervalUpdate;//variable za settanje intervala za update animacije in polozaja
-    let updateP = false; //spremenljivka, ki je true, ko je interval nastavljen in false, ko ni
+    let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja
+    let updateP = false;    //spremenljivka, ki je true, ko je interval nastavljen in false, ko ni
 
 
 //keydown funkcija
@@ -170,7 +171,6 @@ let int1;
             updateP = true;
         }
         //console.log("keyA: " + keyA + ", keyS: " + keyS + ", keyW: " + keyW + ", keyD: " + keyD)// moves character with WASD
-
             if (event.key === "a") {
                 if(!keyA){
                     keyA = true;
@@ -228,7 +228,7 @@ let int1;
         let offset = 0;
 
         animationCooldown++;
-        if(animationCooldown === 3){
+        if(animationCooldown === 5){
             animationCooldown = 0;
             animationIndex++;
         }
