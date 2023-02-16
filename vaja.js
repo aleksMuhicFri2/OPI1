@@ -283,13 +283,12 @@ let int1;
         if(angle < -45 && angle > -135){
             spremeniAnimacijo(6 + animationIndex % 3);
         }
-        console.log("Cursor location: " + cursorX + ", " + cursorY);
+        //console.log("Cursor location: " + cursorX + ", " + cursorY);
     }
 
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
     function updateAnimationAndMove(keyA, keyS, keyW, keyD){
-        let offset = 0;
-        console.log("character log" + charX + ", " +  charY);
+        //console.log("character log" + charX + ", " +  charY);
         animationCooldown++;
         if(animationCooldown === 5){
             animationCooldown = 0;
@@ -308,7 +307,6 @@ let int1;
             }else {
                 charY -= 5;
             }
-            offset = 6;
         }
         if(keyD){
             if(keyS || keyW){
@@ -316,7 +314,6 @@ let int1;
             }else {
                 charX += 5;
             }
-            offset = 3;
         }
         if(keyA){
             if(keyS || keyW){
@@ -324,7 +321,6 @@ let int1;
             }else {
                 charX -= 5;
             }
-            offset = 9;
         }
         spremeniPozicijo(charY, charX);
     }
