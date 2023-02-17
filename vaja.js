@@ -26,6 +26,7 @@ window.onload = function() {
     let avatarClass = "";
     let avatarName = "";
     let int1;
+    let weAreInGame = false;
 
 //================================================= LOGIN PAGE ========================================================
 
@@ -48,6 +49,9 @@ window.onload = function() {
         $("#characterImg").show();
         $("#gameContainer").show();
         createMap();
+        setTimeout(function () { // basically da ne ustreli metka ob buttonPressu
+            weAreInGame = true
+        }, 500);
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -150,7 +154,7 @@ window.onload = function() {
 
     //interval za anti flamethrower
     let spaceCooldownCounter = 0;
-    let spaceCooldown = setInterval(function () {
+    setInterval(function () {
         spaceCooldownCounter++;
     }, 10);
 
@@ -229,11 +233,20 @@ window.onload = function() {
         //console.log(angle);
     });
 
+    //============================================================MOUSECLICK========================================================================
+    document.addEventListener("click", function (){
+        if(weAreInGame){
+        if (spaceCooldownCounter > 40) {
+            let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
+            createImage(image);
+            spaceCooldownCounter = 0;
+        }
+        }
+    })
+
 //============================================================KEYDOWN========================================================================
 
     document.addEventListener("keydown", function (event) {
-        //console.log(event.key);
-        //settanje intervala
         if (event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
             //seta interval za updatanje pozicije
             if (!updateP) {
@@ -269,15 +282,6 @@ window.onload = function() {
         //odpre infotab
         if (event.key === 'i') {
             $("#infoTab").show();
-        }
-        if (event.key === ' ') {
-            console.log(spaceCooldownCounter);
-            //da ni flamethrower
-            if (spaceCooldownCounter > 40) {
-                let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
-                createImage(image);
-                spaceCooldownCounter = 0;
-            }
         }
     });
 
