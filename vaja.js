@@ -266,6 +266,8 @@ window.onload = function() {
         missile.style.left = image.left + "px";
         missile.style.transform = `rotate(${image.angle}deg)`;
         missile.style.zIndex = "3";
+        missile.draggable = false;
+        missile.style.userSelect = "none";
         missiles.push(missile);
         appendImage(missile);
         console.log(missiles + ", " + missileIntervals);
