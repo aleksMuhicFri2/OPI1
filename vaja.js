@@ -47,6 +47,7 @@ window.onload = function() {
         $("#game").show();
         $("#characterImg").show();
         $("#gameContainer").show();
+        createMap();
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -132,14 +133,19 @@ window.onload = function() {
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
     //===================================================================================================================================
-     const canvas = document.querySelector('canvas');
-     const ctx = canvas.getContext('2d');
-     canvas.height = window.innerHeight;
-     canvas.width = window.innerWidth;
-     const map = new Image();
-     map.src = "slike/igra1Map.png"
-     map.onload = () => {
-         ctx.drawImage(map, -500, -500);
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const map = new Image();
+    let mapX = -400;
+    let mapY = -400;
+
+    function createMap(){
+        canvas.height = window.innerHeight * 2;
+        canvas.width = window.innerWidth * 2;
+        map.src = "slike/igra1Map.png"
+        map.onload = () => {
+            ctx.drawImage(map, mapX, mapY);
+        }
     }
 
     //interval za anti flamethrower
@@ -314,9 +320,6 @@ window.onload = function() {
 
     characterImg.src = wizardAnimation[0];//start animation
 
-
-    let charX = -500; // start position of our character
-    let charY = -500; //also start position
     let cursorX;
     let cursorY;
 
@@ -400,40 +403,33 @@ window.onload = function() {
         }
         if (keyS) {
             if (keyA || keyD) {
-                charY -= 3;
+                mapY -= 3;
             } else {
-                charY -= 5;
+                mapY -= 5;
             }
         }
         if (keyW) {
             if (keyA || keyD) {
-                charY += 3;
+                mapY += 3;
             } else {
-                charY += 5;
+                mapY += 5;
             }
         }
         if (keyD) {
             if (keyS || keyW) {
-                charX -= 3;
+                mapX -= 3;
             } else {
-                charX -= 5;
+                mapX -= 5;
             }
         }
         if (keyA) {
             if (keyS || keyW) {
-                charX += 3;
+                mapX += 3;
             } else {
-                charX += 5;
+                mapX += 5;
             }
         }
-        spremeniPozicijo(charY, charX);
-    }
-
-    //funkcija ki spreminja pozicijo
-    function spremeniPozicijo(top, left) {
-        canvas.style.position = "absolute";
-        canvas.style.left = left + "px";
-        canvas.style.top = top + "px";
+        ctx.drawImage(map, mapX, mapY);
     }
 
     //funkcija ki characterju spreminja animacijo
@@ -476,7 +472,5 @@ window.onload = function() {
 
     coinSpin();  // coin spinning function
     //============================================================TEST========================================================================
-
-    const gameContainer = document.querySelector(".game-container");
 
 }
