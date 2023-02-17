@@ -1,7 +1,18 @@
-body{
-    background-color: black;
+.body{
     overflow: hidden;
+    background-color: black;
 }
+
+.background {
+    position: absolute;
+    top: -2000px;
+    left: -4040px;
+    width: 10000px;
+    height: 5000px;
+    overflow: hidden;
+    user-select: none;
+}
+
 .container {
     position: absolute;
     top: 35vh;
@@ -199,8 +210,10 @@ input[type = "submit"]:hover {
 
 #characterImg{
     position: absolute;
-    top: 500px;
-    left: 1000px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100px;
     height: 100px;
+    z-index: 3;
 }

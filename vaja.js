@@ -1,50 +1,52 @@
-window.onload = function(){
+window.onload = function() {
     $("#firstPage").hide();
     $("#avatarCreation").show();
     $("#game").hide();
     $("#characterImg").hide();
     $("#infoTab").hide();
+    $("#gameContainer").hide();
 
 
 //============================================================KONSTANTE========================================================================
-let submitB = document.getElementById("submit"); // submit Button
-let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
-let sumoBt = document.getElementById("sumoBt");
-let wizardBt = document.getElementById("wizardBt");
-let ninjaImg = document.getElementById("ninjaImg"); // IMAGE BUTTONS ........................................
-let wizardImg = document.getElementById("wizardImg");
-let sumoImg = document.getElementById("sumoImg");
-let fireball = document.getElementById("wizardFireball");
-let kunai = document.getElementById("ninjaKunai");
-let heart0 = document.getElementById("heart0");
-let heart1 = document.getElementById("heart1");
-let heart2 = document.getElementById("heart2");
-let coin = document.getElementById("berryCoin");
-let username = "";
-let password = "";
-let avatarClass = "";
-let avatarName = "";
-let int1;
+    let submitB = document.getElementById("submit"); // submit Button
+    let ninjaBt = document.getElementById("ninjaBt"); // Buttons on the Avatar Creation Page ......................
+    let sumoBt = document.getElementById("sumoBt");
+    let wizardBt = document.getElementById("wizardBt");
+    let ninjaImg = document.getElementById("ninjaImg"); // IMAGE BUTTONS ........................................
+    let wizardImg = document.getElementById("wizardImg");
+    let sumoImg = document.getElementById("sumoImg");
+    let fireball = document.getElementById("wizardFireball");
+    let kunai = document.getElementById("ninjaKunai");
+    let heart0 = document.getElementById("heart0");
+    let heart1 = document.getElementById("heart1");
+    let heart2 = document.getElementById("heart2");
+    let coin = document.getElementById("berryCoin");
+    let username = "";
+    let password = "";
+    let avatarClass = "";
+    let avatarName = "";
+    let int1;
 
-//================================================= LOG IN PAGE ========================================================
+//================================================= LOGIN PAGE ========================================================
 
     submitB.onclick = function hidePage() { //                SUBMIT BUTTON FUNCTION....................................
-    username = document.getElementById("usernameInput").value;
-    password = document.getElementById("passwordInput").value;
-    $(document).ready(function() {
-        $("#firstPage").hide();
-        $("#avatarCreation").show();
-        //$("#game").hide();
+        username = document.getElementById("usernameInput").value;
+        password = document.getElementById("passwordInput").value;
+        $(document).ready(function () {
+            $("#firstPage").hide();
+            $("#avatarCreation").show();
+            //$("#game").hide();
         });
     }
 
 //=============================================== AVATAR CREATION PAGE =================================================
 
-    function hideAvatarPage(){
+    function hideAvatarPage() {
         //$("#firstPage").hide();
         $("#avatarCreation").hide();
         $("#game").show();
         $("#characterImg").show();
+        $("#gameContainer").show();
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -68,29 +70,31 @@ let int1;
     $(document).ready(function changeImage() { //           HOVER FOR THE IMAGES (BORDER TURNS WHITE)...................
 
         $("#ninjaBt").hover(
-            function() {
-                $("#ninjaImg").attr("src", "https://art.pixilart.com/sr2f49cc9728a8f.png");},
-            function() {
+            function () {
+                $("#ninjaImg").attr("src", "https://art.pixilart.com/sr2f49cc9728a8f.png");
+            },
+            function () {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/sr29975db92de0e.png");
-        });
+            });
 
-    $("#ninjaImg").hover(
-            function() {
+        $("#ninjaImg").hover(
+            function () {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/thumb/sr2d818a1f5d7d7.png");
                 kunai.style.animation = "moveKunai 0.5s linear alternate";
 
-                },
-            function() {
+            },
+            function () {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/sr29975db92de0e.png");
                 kunai.style.animation = "";
             });
 
         $("#sumoBt").hover(
-            function() {
-                $("#sumoImg").attr("src", "https://art.pixilart.com/sr280cc30953b7e.png");},
-            function() {
+            function () {
+                $("#sumoImg").attr("src", "https://art.pixilart.com/sr280cc30953b7e.png");
+            },
+            function () {
                 $("#sumoImg").attr("src", "https://art.pixilart.com/sr214371b036dc3.png");
-        });
+            });
 
         let currentIndex = 0;
         let sumoImages = ["https://art.pixilart.com/thumb/sr214371b036dc3.png", "https://art.pixilart.com/thumb/sr21279b6461f0f.png",
@@ -107,29 +111,30 @@ let int1;
         });
 
         $("#wizardBt").hover(
-            function() {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr28e6e08b7bbd9.png");},
-            function() {
+            function () {
+                $("#wizardImg").attr("src", "https://art.pixilart.com/sr28e6e08b7bbd9.png");
+            },
+            function () {
                 $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
-        });
-    
-    $("#wizardImg").hover(
-            function() {
+            });
+
+        $("#wizardImg").hover(
+            function () {
                 $("#wizardImg").attr("src", "https://art.pixilart.com/sr245acdadcb2d4.png");
                 fireball.style.animation = "moveFireball 1s linear alternate";
             },
-            function() {
+            function () {
                 $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
                 fireball.style.animation = "";
             });
-        });
+    });
 
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
     //===================================================================================================================================
     //interval za anti flamethrower
     let spaceCooldownCounter = 0;
-    let spaceCooldown = setInterval(function(){
+    let spaceCooldown = setInterval(function () {
         spaceCooldownCounter++;
     }, 10);
 
@@ -144,11 +149,11 @@ let int1;
 
 
     //class za izstrelke
-    class Missile{
+    class Missile {
         interval; //na to se appenda interval za vsak missile
         posX; //to je trenutna pozicija X missila
         posY; //to je trenutna pozicija Y missila
-        constructor(counter, type, src, top, left, angle, user){
+        constructor(counter, type, src, top, left, angle, user) {
             this.counter = counter;
             this.type = type;
             this.src = src;
@@ -163,6 +168,7 @@ let int1;
 
     //slika characterja
     const characterImg = document.getElementById("characterImg");
+    const background = document.getElementById("backgroundImg");
 
 
 //============================================================FUNKCIJA ZA DODAJANJE IZSTRELKOV========================================================================
@@ -171,7 +177,7 @@ let int1;
         document.body.appendChild(missile);
     }
 
-    function createImage(image){
+    function createImage(image) {
         console.log(`${image.counter} , ${image.type} , ${image.src} , ${image.top} , ${image.left} , ${image.angle} , ${image.user} ,`)
         let missile = document.createElement("img");
         missile.style.width = "100px";
@@ -183,10 +189,11 @@ let int1;
         missile.style.top = image.top + "px";
         missile.style.left = image.left + "px";
         missile.style.transform = `rotate(${image.angle}deg)`;
+        missile.style.zIndex = "3";
         missiles.push(missile);
         appendImage(missile);
         console.log(missiles + ", " + missileIntervals);
-        image.interval = setInterval(function(){
+        image.interval = setInterval(function () {
             missileFly(missile, image, 500);
         }, 20);
     }
@@ -202,20 +209,20 @@ let int1;
 
     //============================================================MOUSEMOVE========================================================================
 
-    document.addEventListener("mousemove", function(event) {
+    document.addEventListener("mousemove", function (event) {
         updateDirection(event);
         //console.log(angle);
     });
 
 //============================================================KEYDOWN========================================================================
 
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener("keydown", function (event) {
         //console.log(event.key);
         //settanje intervala
-        if(event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
+        if (event.key === "a" || event.key === "d" || event.key === "s" || event.key === "w") {
             //seta interval za updatanje pozicije
-            if(!updateP){
-                intervalUpdate = setInterval(function() {
+            if (!updateP) {
+                intervalUpdate = setInterval(function () {
                     updateAnimationAndMove(keyA, keyS, keyW, keyD);
                     updateDirection();
                 }, 20);
@@ -251,8 +258,8 @@ let int1;
         if (event.key === ' ') {
             console.log(spaceCooldownCounter);
             //da ni flamethrower
-            if(spaceCooldownCounter > 40){
-                let image = new Missile(counter, fireball, "slike/WizardFireball.png", charY + 10, charX + 10, returnAngle(), "player");
+            if (spaceCooldownCounter > 40) {
+                let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
                 createImage(image);
                 spaceCooldownCounter = 0;
             }
@@ -262,7 +269,7 @@ let int1;
 
 //============================================================KEYUP========================================================================
 
-    document.addEventListener("keyup", function(event) {
+    document.addEventListener("keyup", function (event) {
         //zapre info tab
         if (event.key === 'i') {
             $("#infoTab").hide();
@@ -281,7 +288,7 @@ let int1;
             keyS = false;
         }
         // Stops the movement correctly
-        if(!keyA && !keyS && !keyW && !keyD){
+        if (!keyA && !keyS && !keyW && !keyD) {
             clearInterval(intervalUpdate);
             updateP = false;
             characterImg.src = wizardAnimation[0];
@@ -299,8 +306,8 @@ let int1;
     characterImg.src = wizardAnimation[0];//start animation
 
 
-    let charX = 1000; // start position of our character
-    let charY = 500; //also start position
+    let charX = -4020; // start position of our character
+    let charY = -2000; //also start position
     let cursorX;
     let cursorY;
 
@@ -316,10 +323,10 @@ let int1;
 
     //============================================================UPDATANJE IZSTRELKOV========================================================================
 
-    function missileFly(missile, image, range){
+    function missileFly(missile, image, range) {
         let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
         console.log(razdalja);
-        if(razdalja < range){
+        if (razdalja < range) {
             const distance = 39.5;
 // Convert the direction from degrees to radians
             const radians = image.angle * (Math.PI / 180);
@@ -327,101 +334,100 @@ let int1;
             const deltaX = distance * Math.cos(radians);
             const deltaY = distance * Math.sin(radians);
 // Get the current position of the element
-            image.posX +=  deltaX;
+            image.posX += deltaX;
             image.posY += deltaY;
 
             missile.style.left = image.posX + "px";
             missile.style.top = image.posY + "px";
-        }else{
+        } else {
             missile.src = "";
-           // missiles.delete(missile);
+            // missiles.delete(missile);
             clearInterval(image.interval);
         }
     }
 
-    function vrniRazdaljo(posX1, posX2, posY1, posY2){
+    function vrniRazdaljo(posX1, posX2, posY1, posY2) {
         return Math.sqrt(Math.pow(posX1 - posX2, 2) + Math.pow(posY1 - posY2, 2));
     }
 
 //============================================================OBRACANJE IN PREMIKANJE CHARACTERJA========================================================================
 
-    function updateDirection(event){
-        if(event){
+    function updateDirection(event) {
+        if (event) {
             cursorX = event.clientX;
             cursorY = event.clientY;
         }
-        const xDiff = cursorX - charX - 50;
-        const yDiff = cursorY - charY - 50;
-        const angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
-        if(angle < 45 && angle > -45){
+        const angle = returnAngle();
+        if (angle < 45 && angle > -45) {
             spremeniAnimacijo(3 + animationIndex % 3);
         }
-        if(angle > 45 && angle < 135){
+        if (angle > 45 && angle < 135) {
             spremeniAnimacijo(animationIndex % 3);
         }
-        if(angle > 135 && angle < 180 || angle > -180 && angle < -135){
-            spremeniAnimacijo( 9 + animationIndex % 3);
+        if (angle > 135 && angle < 180 || angle > -180 && angle < -135) {
+            spremeniAnimacijo(9 + animationIndex % 3);
         }
-        if(angle < -45 && angle > -135){
+        if (angle < -45 && angle > -135) {
             spremeniAnimacijo(6 + animationIndex % 3);
         }
         //console.log("Cursor location: " + cursorX + ", " + cursorY);
     }
 
     //returna angle med cursorjem in characterjem
-    function returnAngle(){
-        const xDiff = cursorX - charX - 50;
-        const yDiff = cursorY - charY - 50;
+    function returnAngle() {
+        const xDiff = cursorX - 950;
+        const yDiff = cursorY - 500;
+        console.log(Math.atan2(yDiff, xDiff) * 180 / Math.PI)
         return Math.atan2(yDiff, xDiff) * 180 / Math.PI;
     }
 
     //funkcija update, ki glede na pritisnjene keye spreminja animacijo in pozicijo
-    function updateAnimationAndMove(keyA, keyS, keyW, keyD){
+    function updateAnimationAndMove(keyA, keyS, keyW, keyD) {
         //console.log("character log" + charX + ", " +  charY);
         animationCooldown++;
-        if(animationCooldown === 5){
+        if (animationCooldown === 5) {
             animationCooldown = 0;
             animationIndex++;
         }
-        if(keyS){
-            if(keyA || keyD){
-                charY += 3;
-            }else {
-                charY += 5;
-            }
-        }
-        if(keyW){
-            if(keyA || keyD){
+        if (keyS) {
+            if (keyA || keyD) {
                 charY -= 3;
-            }else {
+            } else {
                 charY -= 5;
             }
         }
-        if(keyD){
-            if(keyS || keyW){
-                charX += 3;
-            }else {
-                charX += 5;
+        if (keyW) {
+            if (keyA || keyD) {
+                charY += 3;
+            } else {
+                charY += 5;
             }
         }
-        if(keyA){
-            if(keyS || keyW){
+        if (keyD) {
+            if (keyS || keyW) {
                 charX -= 3;
-            }else {
+            } else {
                 charX -= 5;
+            }
+        }
+        if (keyA) {
+            if (keyS || keyW) {
+                charX += 3;
+            } else {
+                charX += 5;
             }
         }
         spremeniPozicijo(charY, charX);
     }
 
     //funkcija ki spreminja pozicijo
-    function spremeniPozicijo(top, left){
-        characterImg.style.left = left + "px";
-        characterImg.style.top = top + "px";
+    function spremeniPozicijo(top, left) {
+        background.style.left = left + "px";
+        background.style.top = top + "px";
     }
 
     //funkcija ki characterju spreminja animacijo
-    function spremeniAnimacijo(animacija){
+    function spremeniAnimacijo(animacija) {
         characterImg.src = wizardAnimation[animacija];
     }
 
@@ -429,15 +435,15 @@ let int1;
 
 
     function heartJump() {
-        setTimeout(function() {
+        setTimeout(function () {
             heart0.style.animation = "heartJump 2s steps(1, end) infinite";
-        },1350);
-        setTimeout(function() {
+        }, 1350);
+        setTimeout(function () {
             heart1.style.animation = "heartJump 2s steps(1, end) infinite";
-        },1500);
-        setTimeout(function() {
+        }, 1500);
+        setTimeout(function () {
             heart2.style.animation = "heartJump 2s steps(1, end) infinite";
-        },1650);
+        }, 1650);
     }
 
     heartJump(); // hearts jumping on top of the pagee
@@ -452,12 +458,15 @@ let int1;
         let spinIndex = 0;
         let coinImages = ["https://art.pixilart.com/thumb/sr2b3a05f028aab.png", "https://art.pixilart.com/thumb/sr26cad9a64b482.png",
             "https://art.pixilart.com/thumb/sr281a982156be4.png", "https://art.pixilart.com/thumb/sr2c1b6163fc67e.png"];
-        setInterval(function(){
+        setInterval(function () {
             spinIndex = (spinIndex + 1) % coinImages.length;
             coin.src = coinImages[spinIndex];
-        },200);
+        }, 200);
     }
 
     coinSpin();  // coin spinning function
-    //============================================================TODO========================================================================
+    //============================================================TEST========================================================================
+
+    const gameContainer = document.querySelector(".game-container");
+
 }
