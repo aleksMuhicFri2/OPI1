@@ -123,6 +123,7 @@ let int1;
         });
 
     //============================================== GAME PAGE =========================================================
+
     let spaceCooldownCounter = 0;
     let spaceCooldown = setInterval(function(){
         spaceCooldownCounter++;
