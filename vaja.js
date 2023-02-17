@@ -137,6 +137,7 @@ window.onload = function() {
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
     //===================================================================================================================================
+
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
     const map = new Image();
@@ -214,7 +215,7 @@ window.onload = function() {
         console.log(missiles + ", " + missileIntervals);
         image.interval = setInterval(function () {
             missileFly(missile, image, 500);
-        }, 20);
+        }, 30);
     }
 
 //============================================================KONSTANTE ZA ANIMACIJE IN QUALITY OF LIFE========================================================================
@@ -236,7 +237,7 @@ window.onload = function() {
     //============================================================MOUSECLICK========================================================================
     document.addEventListener("click", function (){
         if(weAreInGame){
-        if (spaceCooldownCounter > 40) {
+        if (spaceCooldownCounter > 80) {
             let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
             createImage(image);
             spaceCooldownCounter = 0;
