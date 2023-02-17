@@ -48,6 +48,7 @@ window.onload = function() {
         $("#characterImg").show();
         $("#gameContainer").show();
         createMap();
+        izberiClass(avatarClass);
     }
 
     ninjaBt.onclick = function () { //                        CLASS BUTTONS FUNCTIONS...................................
@@ -62,7 +63,7 @@ window.onload = function() {
     }
     wizardBt.onclick = function () {
         avatarClass = "wizard";
-        console.log(avatarClass);
+        //console.log(avatarClass);
         avatarName = document.getElementById("avatarNameInput").value;
         hideAvatarPage();
     }
@@ -133,6 +134,67 @@ window.onload = function() {
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
     //===================================================================================================================================
+
+    //slika characterja
+    const characterImg = document.getElementById("characterImg");
+    //==============================================KONSTANTE ZA ANIMACIJE IN QUALITY OF LIFE============================================
+
+    let animationIndex = 0; //for animation purposes(glej spodaj)
+    let animationCooldown = 0;//change for faster change of animation
+
+    let cursorX;
+    let cursorY;
+
+    //keys za gledanje kateri so pritisnjeni
+    let keyA = false;
+    let keyS = false;
+    let keyD = false;
+    let keyW = false;
+
+
+    let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja characterja
+    let updateP = false;    //spremenljivka, ki je true, ko je interval za premikanje nastavljen in false, ko ni
+
+    let arrayAnimacij = [];
+    let missileType;
+
+
+    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
+        "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
+        "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
+        "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];//dodaj izstrelek za right in left click
+
+    let sumoAnimation = ["https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png",
+        "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png",
+        "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png",  "https://art.pixilart.com/sr214371b036dc3.png",
+        "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png", "https://art.pixilart.com/sr214371b036dc3.png"] //dopolni s slikami sumota
+
+    let ninjaAnimation = ["https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png",
+        "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png",
+        "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png",
+        "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png", "https://art.pixilart.com/sr27d92e5aff323.png"];//dopolni s slikami ninje
+
+    //dodaj ostale characterje
+
+    function izberiClass(avatarClass) {
+        if (avatarClass === "ninja") {
+            arrayAnimacij = ninjaAnimation;
+            characterImg.src = arrayAnimacij[0];
+            missileType = "shuriken";
+        }
+        if (avatarClass === "sumo") {
+            arrayAnimacij = sumoAnimation;
+            characterImg.src = arrayAnimacij[0];
+            missileType = "shockWave";
+        }
+        if (avatarClass === "wizard") {
+            arrayAnimacij = wizardAnimation;
+            characterImg.src = arrayAnimacij[0];
+            missileType = "fireball";
+        }
+    }
+
+//=======================================================DODAJANJE OZADJA==================================================================
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
     const map = new Image();
@@ -148,13 +210,14 @@ window.onload = function() {
         }
     }
 
+//===============================================================IZSTRELKI==============================================================
+
     //interval za anti flamethrower
     let spaceCooldownCounter = 0;
     let spaceCooldown = setInterval(function () {
         spaceCooldownCounter++;
     }, 10);
 
-//===============================================================IZSTRELKI==============================================================
 
     //arraya za izstrelke
     let missiles = [];
@@ -162,7 +225,6 @@ window.onload = function() {
 
     //counter za id izstrelkov
     let counter = 0;
-
 
     //class za izstrelke
     class Missile {
@@ -181,12 +243,6 @@ window.onload = function() {
             this.user = user;
         }
     }
-
-    //slika characterja
-    const characterImg = document.getElementById("characterImg");
-
-
-//============================================================FUNKCIJA ZA DODAJANJE IZSTRELKOV========================================================================
 
     function appendImage(missile) {
         document.body.appendChild(missile);
@@ -213,14 +269,32 @@ window.onload = function() {
         }, 20);
     }
 
-//============================================================KONSTANTE ZA ANIMACIJE IN QUALITY OF LIFE========================================================================
+    function missileFly(missile, image, range) {
+        let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
+        console.log(razdalja);
+        if (razdalja < range) {
+            const distance = 39.5;
+// Convert the direction from degrees to radians
+            const radians = image.angle * (Math.PI / 180);
+// Calculate the horizontal and vertical components of the movement
+            const deltaX = distance * Math.cos(radians);
+            const deltaY = distance * Math.sin(radians);
+// Get the current position of the element
+            image.posX += deltaX;
+            image.posY += deltaY;
 
+            missile.style.left = image.posX + "px";
+            missile.style.top = image.posY + "px";
+        } else {
+            missile.src = "";
+            // missiles.delete(missile);
+            clearInterval(image.interval);
+        }
+    }
 
-    let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
-        "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
-        "slike/WizardBack.png", "slike/WizardWalkUp1.png", "slike/WizardWalkUp2.png",
-        "slike/WizardLeftSide.png", "slike/WizardWalkLeft1.png", "slike/WizardWalkLeft2.png"];
-
+    function vrniRazdaljo(posX1, posX2, posY1, posY2) {
+        return Math.sqrt(Math.pow(posX1 - posX2, 2) + Math.pow(posY1 - posY2, 2));
+    }
 
     //============================================================MOUSEMOVE========================================================================
 
@@ -274,7 +348,7 @@ window.onload = function() {
             console.log(spaceCooldownCounter);
             //da ni flamethrower
             if (spaceCooldownCounter > 40) {
-                let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
+                let image = new Missile(counter, missileType, arrayAnimacij[12], 450, 950, returnAngle(), "player");
                 createImage(image);
                 spaceCooldownCounter = 0;
             }
@@ -306,61 +380,12 @@ window.onload = function() {
         if (!keyA && !keyS && !keyW && !keyD) {
             clearInterval(intervalUpdate);
             updateP = false;
-            characterImg.src = wizardAnimation[0];
+            characterImg.src = arrayAnimacij[0];
             animationCooldown = 0;
             animationIndex = 0;
         }
     });
 
-//============================================================KONSTANTE ZA KEYE, POZICIJE IN ANIMACIJE STVARI========================================================================
-
-    let animationIndex = 0; //for animation purposes(glej spodaj)
-    let animationCooldown = 0;//change for faster change of animation
-
-
-    characterImg.src = wizardAnimation[0];//start animation
-
-    let cursorX;
-    let cursorY;
-
-    //keys za gledanje kateri so pritisnjeni
-    let keyA = false;
-    let keyS = false;
-    let keyD = false;
-    let keyW = false;
-
-
-    let intervalUpdate;     //variable za settanje intervala za update animacije in polozaja characterja
-    let updateP = false;    //spremenljivka, ki je true, ko je interval za premikanje nastavljen in false, ko ni
-
-    //============================================================UPDATANJE IZSTRELKOV========================================================================
-
-    function missileFly(missile, image, range) {
-        let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
-        console.log(razdalja);
-        if (razdalja < range) {
-            const distance = 39.5;
-// Convert the direction from degrees to radians
-            const radians = image.angle * (Math.PI / 180);
-// Calculate the horizontal and vertical components of the movement
-            const deltaX = distance * Math.cos(radians);
-            const deltaY = distance * Math.sin(radians);
-// Get the current position of the element
-            image.posX += deltaX;
-            image.posY += deltaY;
-
-            missile.style.left = image.posX + "px";
-            missile.style.top = image.posY + "px";
-        } else {
-            missile.src = "";
-            // missiles.delete(missile);
-            clearInterval(image.interval);
-        }
-    }
-
-    function vrniRazdaljo(posX1, posX2, posY1, posY2) {
-        return Math.sqrt(Math.pow(posX1 - posX2, 2) + Math.pow(posY1 - posY2, 2));
-    }
 
 //============================================================OBRACANJE IN PREMIKANJE CHARACTERJA========================================================================
 
@@ -434,7 +459,7 @@ window.onload = function() {
 
     //funkcija ki characterju spreminja animacijo
     function spremeniAnimacijo(animacija) {
-        characterImg.src = wizardAnimation[animacija];
+        characterImg.src = arrayAnimacij[animacija];
     }
 
 //============================================================HEARTJUMP========================================================================
