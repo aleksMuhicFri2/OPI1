@@ -132,6 +132,16 @@ window.onload = function() {
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
     //===================================================================================================================================
+     const canvas = document.querySelector('canvas');
+     const ctx = canvas.getContext('2d');
+     canvas.height = window.innerHeight;
+     canvas.width = window.innerWidth;
+     const map = new Image();
+     map.src = "slike/igra1Map.png"
+     map.onload = () => {
+         ctx.drawImage(map, -500, -500);
+    }
+
     //interval za anti flamethrower
     let spaceCooldownCounter = 0;
     let spaceCooldown = setInterval(function () {
@@ -168,7 +178,6 @@ window.onload = function() {
 
     //slika characterja
     const characterImg = document.getElementById("characterImg");
-    const background = document.getElementById("backgroundImg");
 
 
 //============================================================FUNKCIJA ZA DODAJANJE IZSTRELKOV========================================================================
@@ -306,8 +315,8 @@ window.onload = function() {
     characterImg.src = wizardAnimation[0];//start animation
 
 
-    let charX = -4020; // start position of our character
-    let charY = -2000; //also start position
+    let charX = -500; // start position of our character
+    let charY = -500; //also start position
     let cursorX;
     let cursorY;
 
@@ -422,8 +431,9 @@ window.onload = function() {
 
     //funkcija ki spreminja pozicijo
     function spremeniPozicijo(top, left) {
-        background.style.left = left + "px";
-        background.style.top = top + "px";
+        canvas.style.position = "absolute";
+        canvas.style.left = left + "px";
+        canvas.style.top = top + "px";
     }
 
     //funkcija ki characterju spreminja animacijo
