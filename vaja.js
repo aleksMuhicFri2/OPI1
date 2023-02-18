@@ -166,7 +166,12 @@ window.onload = function() {
     let gojoAnimation = ["https://art.pixilart.com/sr220fa4f76ea08.png", "https://art.pixilart.com/sr27c4c6b078516.png", "https://art.pixilart.com/sr2b0f3f8cea39f.png",
         "slike/gojoRight.png", "slike/gojoRight1.png", "slike/gojoRight2.png",
         "slike/gojoBack.png", "slike/gojoBack1.png", "slike/gojoBack2.png",
-        "slike/gojoLeft.png", "slike/gojoLeft1.png", "slike/gojoLeft2.png"]
+        "slike/gojoLeft.png", "slike/gojoLeft1.png", "slike/gojoLeft2.png"];
+
+    let luffyAnimation = ["slike/LuffyFront.png", "slike/LuffyWalkDown1.png", "slike/LuffyWalkDown2.png",
+                          "slike/LuffyRightSide.png", "slike/LuffyWalkRight1.png", "slike/LuffyWalkRight2.png",
+                          "slike/LuffyBack.png", "slike/LuffyWalkUp1.png", "slike/LuffyWalkUp2.png",
+                          "slike/LuffyLeftSide.png", "slike/LuffyWalkLeft1.png", "slike/LuffyWalkLeft2.png"];
 
 
     let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
@@ -198,7 +203,7 @@ window.onload = function() {
             missileType = "shockWave";
         }
         if (avatarClass === "wizard") {
-            arrayAnimacij = gojoAnimation;
+            arrayAnimacij = luffyAnimation;
             characterImg.src = arrayAnimacij[0];
             missileType = "fireball";
         }
