@@ -84,13 +84,14 @@ input[type = "submit"]:hover {
     top: 45vh;
     left: 35vw;
 }
-#wizardImg {
+#luffyImg {
     position: absolute;
     height: 20vh;
     width: 20vh;
     top: 65vh;
-    left: 20vh;
+    left: 25vh;
 }
+
 #wizardFireball {
     position: absolute;
     height: 23vh;
