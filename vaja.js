@@ -203,8 +203,8 @@ window.onload = function() {
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
     const map = new Image();
-    let mapX = -400;
-    let mapY = -400;
+    let mapX = -515;
+    let mapY = -1050;
 
     function createMap(){
         canvas.height = window.innerHeight * 2;
@@ -256,8 +256,8 @@ window.onload = function() {
     function createImage(image) {
         console.log(`${image.counter} , ${image.type} , ${image.src} , ${image.top} , ${image.left} , ${image.angle} , ${image.user} ,`)
         let missile = document.createElement("img");
-        missile.style.width = "100px";
-        missile.style.width = "100px";
+        missile.style.width = "50px";
+        missile.style.width = "50px";
         missile.style.position = "absolute";
         missile.id = image.type + counter;
         counter++;
@@ -272,7 +272,7 @@ window.onload = function() {
         appendImage(missile);
         console.log(missiles + ", " + missileIntervals);
         image.interval = setInterval(function () {
-            missileFly(missile, image, 500);
+            missileFly(missile, image, 250);
         }, 30);
     }
 
@@ -280,7 +280,7 @@ window.onload = function() {
         let razdalja = vrniRazdaljo(image.left, image.posX, image.top, image.posY);
         console.log(razdalja);
         if (razdalja < range) {
-            const distance = 39.5;
+            const distance = 30;
 // Convert the direction from degrees to radians
             const radians = image.angle * (Math.PI / 180);
 // Calculate the horizontal and vertical components of the movement
@@ -314,7 +314,7 @@ window.onload = function() {
     document.addEventListener("click", function (){
         if(weAreInGame){
         if (spaceCooldownCounter > 80) {
-            let image = new Missile(counter, fireball, "slike/WizardFireball.png", 450, 950, returnAngle(), "player");
+            let image = new Missile(counter, fireball, "slike/WizardFireball.png", 490, 950, returnAngle(), "player");
             createImage(image);
             spaceCooldownCounter = 0;
         }
