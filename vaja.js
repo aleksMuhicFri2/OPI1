@@ -125,7 +125,7 @@ window.onload = function() {
                 clearInterval(luffyAnimationInterval);
             })
 
-        let gojoPose = "https://art.pixilart.com/sr2d374104d6ce7.png";
+        let gojoPose = "https://art.pixilart.com/sr224d7f3328b8c.png";
     });
 
 
