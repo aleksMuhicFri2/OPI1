@@ -163,6 +163,11 @@ window.onload = function() {
     let arrayAnimacij = [];
     let missileType;
 
+    let gojoAnimation = ["https://art.pixilart.com/sr220fa4f76ea08.png", "https://art.pixilart.com/sr27c4c6b078516.png", "https://art.pixilart.com/sr2b0f3f8cea39f.png",
+        "slike/gojoRight.png", "slike/gojoRight1.png", "slike/gojoRight2.png",
+        "slike/gojoBack.png", "slike/gojoBack1.png", "slike/gojoBack2.png",
+        "slike/gojoLeft.png", "slike/gojoLeft1.png", "slike/gojoLeft2.png"]
+
 
     let wizardAnimation = ["slike/WizardFront.png", "https://art.pixilart.com/sr2e1496ebd68df.png", "https://art.pixilart.com/sr20b67910862cb.png",
         "slike/WizardRightSide.png", "slike/WizardWalkRight1.png", "slike/WizardWalkRight2.png",
@@ -193,7 +198,7 @@ window.onload = function() {
             missileType = "shockWave";
         }
         if (avatarClass === "wizard") {
-            arrayAnimacij = wizardAnimation;
+            arrayAnimacij = gojoAnimation;
             characterImg.src = arrayAnimacij[0];
             missileType = "fireball";
         }
