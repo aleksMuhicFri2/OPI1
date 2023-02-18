@@ -198,7 +198,7 @@ window.onload = function() {
             missileType = "shockWave";
         }
         if (avatarClass === "wizard") {
-            arrayAnimacij = gojoAnimation;
+            arrayAnimacij = wizardAnimation;
             characterImg.src = arrayAnimacij[0];
             missileType = "fireball";
         }
