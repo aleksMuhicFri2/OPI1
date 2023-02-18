@@ -15,6 +15,7 @@ window.onload = function() {
     let ninjaImg = document.getElementById("ninjaImg"); // IMAGE BUTTONS ........................................
     let wizardImg = document.getElementById("wizardImg");
     let sumoImg = document.getElementById("sumoImg");
+    let luffyImg = document.getElementById("luffyImg");
     let fireball = document.getElementById("wizardFireball");
     let kunai = document.getElementById("ninjaKunai");
     let heart0 = document.getElementById("heart0");
@@ -26,6 +27,7 @@ window.onload = function() {
     let avatarClass = "";
     let avatarName = "";
     let int1;
+    let luffyAnimationInterval;
     let weAreInGame = false;
 
 //================================================= LOGIN PAGE ========================================================
@@ -75,14 +77,6 @@ window.onload = function() {
 
     $(document).ready(function changeImage() { //           HOVER FOR THE IMAGES (BORDER TURNS WHITE)...................
 
-        $("#ninjaBt").hover(
-            function () {
-                $("#ninjaImg").attr("src", "https://art.pixilart.com/sr2f49cc9728a8f.png");
-            },
-            function () {
-                $("#ninjaImg").attr("src", "https://art.pixilart.com/sr29975db92de0e.png");
-            });
-
         $("#ninjaImg").hover(
             function () {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/thumb/sr2d818a1f5d7d7.png");
@@ -92,14 +86,6 @@ window.onload = function() {
             function () {
                 $("#ninjaImg").attr("src", "https://art.pixilart.com/sr29975db92de0e.png");
                 kunai.style.animation = "";
-            });
-
-        $("#sumoBt").hover(
-            function () {
-                $("#sumoImg").attr("src", "https://art.pixilart.com/sr280cc30953b7e.png");
-            },
-            function () {
-                $("#sumoImg").attr("src", "https://art.pixilart.com/sr214371b036dc3.png");
             });
 
         let currentIndex = 0;
@@ -116,24 +102,31 @@ window.onload = function() {
             clearInterval(int1);
         });
 
-        $("#wizardBt").hover(
-            function () {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr28e6e08b7bbd9.png");
-            },
-            function () {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
-            });
+        let luffyAnimationIndex = 0;
+        let luffyStretchImages = ["slike/LuffyFront.png", "slike/LuffyStretchNeck1.png", "slike/LuffyStretchNeck2.png", "slike/LuffyStretchNeck3.png", "slike/LuffyStretchNeck4.png",
+            "slike/LuffyStretchNeck3.png", "slike/LuffyStretchNeck4.png", "slike/LuffyStretchNeck3.png", "slike/LuffyStretchNeck2.png", "slike/LuffyStretchNeck1.png",
+            "slike/LuffyFront.png"];
 
-        $("#wizardImg").hover(
+        $("#luffyImg").hover(
             function () {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr245acdadcb2d4.png");
-                fireball.style.animation = "moveFireball 1s linear alternate";
+                luffyAnimationInterval = setInterval(() => {
+                    luffyAnimationIndex = (luffyAnimationIndex + 1) % luffyStretchImages.length;
+                    luffyImg.src = luffyStretchImages[luffyAnimationIndex];
+                    if(luffyAnimationIndex !== 0 && luffyAnimationIndex !== 10){
+                        luffyImg.style.scale = "2";
+                    } else {
+                        luffyImg.style.scale = "1";
+                    }
+                }, 100);
             },
             function () {
-                $("#wizardImg").attr("src", "https://art.pixilart.com/sr25e49254bba95.png");
-                fireball.style.animation = "";
-            });
+                luffyImg.src = luffyStretchImages[0];
+                luffyImg.style.scale = "1";
+                clearInterval(luffyAnimationInterval);
+            })
     });
+
+
 
     //============================================== GAME PAGE ==========================================================================
     //===================================================================================================================================
@@ -517,3 +510,4 @@ window.onload = function() {
     //============================================================TEST========================================================================
 
 }
+
