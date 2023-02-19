@@ -117,7 +117,7 @@ window.onload = function() {
                     } else {
                         luffyImg.style.scale = "1";
                     }
-                }, 100);
+                }, 150);
             },
             function () {
                 luffyImg.src = luffyStretchImages[0];
@@ -222,7 +222,7 @@ window.onload = function() {
 
     //interval za anti flamethrower
     let spaceCooldownCounter = 0;
-    let spaceCooldown = setInterval(function () {
+    setInterval(function () {
         spaceCooldownCounter++;
     }, 10);
 
@@ -440,28 +440,28 @@ window.onload = function() {
             if (keyA || keyD) {
                 mapY -= 3;
             } else {
-                mapY -= 5;
+                mapY -= 4;
             }
         }
         if (keyW) {
             if (keyA || keyD) {
                 mapY += 3;
             } else {
-                mapY += 5;
+                mapY += 4;
             }
         }
         if (keyD) {
             if (keyS || keyW) {
                 mapX -= 3;
             } else {
-                mapX -= 5;
+                mapX -= 4;
             }
         }
         if (keyA) {
             if (keyS || keyW) {
                 mapX += 3;
             } else {
-                mapX += 5;
+                mapX += 4;
             }
         }
         ctx.drawImage(map, mapX, mapY);
@@ -510,4 +510,3 @@ window.onload = function() {
     //============================================================TEST========================================================================
 
 }
-
