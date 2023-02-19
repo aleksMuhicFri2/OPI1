@@ -124,7 +124,11 @@ window.onload = function() {
                 luffyImg.style.scale = "1";
                 clearInterval(luffyAnimationInterval);
             })
+
+        let gojoPose = "https://art.pixilart.com/sr224d7f3328b8c.png";
     });
+
+
 
 
 
