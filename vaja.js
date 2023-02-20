@@ -3,7 +3,6 @@ window.onload = function() {
     $("#avatarCreation").show();
     $("#game").hide();
     $("#characterImg").hide();
-    $("#infoTab").hide();
     $("#gameContainer").hide();
 
 
@@ -22,6 +21,7 @@ window.onload = function() {
     let heart1 = document.getElementById("heart1");
     let heart2 = document.getElementById("heart2");
     let coin = document.getElementById("berryCoin");
+    let infoTab = document.getElementById("infoTab");
     let username = "";
     let password = "";
     let avatarClass = "";
@@ -363,20 +363,29 @@ window.onload = function() {
                 }
             }
         }
+    });
+
+    document.addEventListener("keydown", function (event) {
         //odpre infotab
         if (event.key === 'i') {
-            $("#infoTab").show();
+            console.log("OK")
+            infoTab.style.visibility = "visible";
         }
     });
+
+    document.addEventListener("keyup", function (event) {
+        //zapre infotab
+        if (event.key === 'i') {
+            console.log("OK2")
+            infoTab.style.visibility = "hidden";
+        }
+    });
+
 
 
 //============================================================KEYUP========================================================================
 
     document.addEventListener("keyup", function (event) {
-        //zapre info tab
-        if (event.key === 'i') {
-            $("#infoTab").hide();
-        }
         //razni keyupi
         if (event.key === "a") {
             keyA = false;

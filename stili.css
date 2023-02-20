@@ -204,9 +204,14 @@ input[type = "submit"]:hover {
     }
 }
 #infoTab {
-    height: 25vh;
-    width: 20vw;
+    position: absolute;
+    top: 2vh;
+    left: 2vh;
+    height: 40vh;
+    width: 30vw;
     border: 1px solid white;
+    visibility: hidden;
+    z-index: 4;
 }
 
 #characterImg{
