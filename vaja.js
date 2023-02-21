@@ -210,8 +210,49 @@ window.onload = function() {
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
     const map = new Image();
-    let mapX = -515;
-    let mapY = -1050;
+    let mapX = -705;
+    let mapY = -1150;
+    let charX = 620;
+    let charY = 390;
+
+    let collisionsMap = [];
+    for(let i = 0; i < collisions.length; i += 100){
+        collisionsMap.push(collisions.slice(i, 100 + i));
+    }
+
+    class Boundary {
+        constructor({position}){
+            this.position = position;
+            this.width = 48;
+            this.height = 48;
+        }
+            draw() {
+            ctx.fillStyle = "red";
+            ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+            }
+    }
+
+    const boundaries = []; // kje so collisioni
+    collisionsMap.forEach((row, i) => {
+        row.forEach((symbol, j) => {
+            if(symbol === 2032){
+                boundaries.push(new Boundary({position: {
+                        x: j * 48 + mapX,
+                        y: i * 48 + mapY
+                    }}))
+            }})
+    })
+
+    console.log(boundaries)
+
+    function checkForCollision() {
+        boundaries.forEach(boundary => {
+            if(charX + 30 >= boundary.position.x && charX <= boundary.position.x + 48 &&
+                charY + 30 >= boundary.position.y && charY <= boundary.position.y + 48){
+                console.log("collision");
+            }
+        })
+    }
 
     function createMap(){
         canvas.height = window.innerHeight * 2;
@@ -220,6 +261,46 @@ window.onload = function() {
         map.onload = () => {
             ctx.drawImage(map, mapX, mapY);
         }
+    }
+
+//===============================================================ENEMMIES===============================================================
+let enemies = [];
+    class Enemy {
+        posX; //to je trenutna pozicija X missila
+        posY; //to je trenutna pozicija Y missila
+        constructor(HP, attack, Xp, type, src, top, left) {
+            this.HP = HP;
+            this.attack = attack;
+            this.Xp = Xp;
+            this.type = type;
+            this.src = src;
+            this.top = top;   //zacetna Y
+            this.left = left; //zacetna X
+            this.posY = top;
+            this.posX = left;
+        }
+    }
+    function appendEnemy(enemy) {
+        document.body.appendChild(enemy);
+    }
+    function createAndPlaceEnemy(enemyImage) {
+        let enemy = document.createElement("img");
+        enemy.style.width = "60px";
+        enemy.style.width = "60px";
+        enemy.style.position = "absolute";
+        enemy.id = enemyImage.type + counter;
+        enemy.src = enemyImage.src;
+        enemy.style.top = enemyImage.top + "px";
+        enemy.style.left = enemyImage.left + "px";
+        enemy.style.zIndex = "3";
+        enemies.push(enemy);
+        appendEnemy(enemyImage);
+    }
+    function enemyAttack(enemy){
+
+    }
+    function enemyMove(enemy){
+
     }
 
 //===============================================================IZSTRELKI==============================================================
@@ -337,6 +418,12 @@ window.onload = function() {
                 intervalUpdate = setInterval(function () {
                     updateAnimationAndMove(keyA, keyS, keyW, keyD);
                     updateDirection();
+                    checkForCollision();
+                    console.log(charX);
+                    console.log(charY);
+                    boundaries.forEach(boundary => {
+                        boundary.draw();
+                       })
                 }, 20);
                 updateP = true;
             }
@@ -368,7 +455,6 @@ window.onload = function() {
     document.addEventListener("keydown", function (event) {
         //odpre infotab
         if (event.key === 'i') {
-            console.log("OK")
             infoTab.style.visibility = "visible";
         }
     });
@@ -376,12 +462,9 @@ window.onload = function() {
     document.addEventListener("keyup", function (event) {
         //zapre infotab
         if (event.key === 'i') {
-            console.log("OK2")
             infoTab.style.visibility = "hidden";
         }
     });
-
-
 
 //============================================================KEYUP========================================================================
 
@@ -437,7 +520,6 @@ window.onload = function() {
     function returnAngle() {
         const xDiff = cursorX - 950;
         const yDiff = cursorY - 500;
-        console.log(Math.atan2(yDiff, xDiff) * 180 / Math.PI)
         return Math.atan2(yDiff, xDiff) * 180 / Math.PI;
     }
 
@@ -451,29 +533,53 @@ window.onload = function() {
         }
         if (keyS) {
             if (keyA || keyD) {
+                boundaries.forEach(boundary => {
+                    boundary.position.y -= 3;
+                })
                 mapY -= 3;
             } else {
+                boundaries.forEach(boundary => {
+                   boundary.position.y -= 4;
+                })
                 mapY -= 4;
             }
         }
         if (keyW) {
             if (keyA || keyD) {
+                boundaries.forEach(boundary => {
+                    boundary.position.y += 3;
+               })
                 mapY += 3;
             } else {
+                boundaries.forEach(boundary => {
+                    boundary.position.y += 4;
+                })
                 mapY += 4;
             }
         }
         if (keyD) {
             if (keyS || keyW) {
+                boundaries.forEach(boundary => {
+                    boundary.position.x -= 3;
+                })
                 mapX -= 3;
             } else {
+                boundaries.forEach(boundary => {
+                    boundary.position.x -= 4;
+                })
                 mapX -= 4;
             }
         }
         if (keyA) {
             if (keyS || keyW) {
+                boundaries.forEach(boundary => {
+                    boundary.position.x += 3;
+                })
                 mapX += 3;
             } else {
+                boundaries.forEach(boundary => {
+                    boundary.position.x += 4;
+                })
                 mapX += 4;
             }
         }
